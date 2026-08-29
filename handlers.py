@@ -5,6 +5,8 @@ from config import LEAGUE_NAME_TICKER, LEAGUE_IDS, url, headers
 from keyboards import main_keyboard, action_keyboard, matches_keyboard
 from api_client import get_match_details
 from utils import get_today_date, format_match_details
+from cache import get_cached_matches, save_matches_to_cache
+from api_client import get_matches_by_date
 
 user_state = {}
 
@@ -94,17 +96,28 @@ def register_handlers(bot: TeleBot):
         if not league_id:
             bot.send_message(chat_id, "❌ Ошибка: ID лиги не найден.")
             return False
-        querystring = {"date": api_date}
-        try:
-            response = requests.get(url, headers=headers, params=querystring)
-            data = response.json()
-        except Exception as e:
-            bot.send_message(chat_id, f"❌ Ошибка при запросе к API: {e}")
-            return False
-        filtered_matches = []
-        for match in data.get("response", {}).get("matches", []):
-            if match.get("leagueId") == league_id:
-                filtered_matches.append(match)
+
+        today_api = datetime.now().strftime("%Y%m%d")
+
+        if api_date < today_api:
+            cached = get_cached_matches(league_id, api_date)
+            if cached is not None:
+                filtered_matches = cached
+            else:
+                data = get_matches_by_date(api_date)
+                filtered_matches = []
+                for match in data.get("response", {}).get("matches", []):
+                    if match.get("leagueId") == league_id:
+                        filtered_matches.append(match)
+                save_matches_to_cache(league_id, api_date, filtered_matches)
+        else:
+            data = get_matches_by_date(api_date)
+            filtered_matches = []
+            for match in data.get("response", {}).get("matches", []):
+                if match.get("leagueId") == league_id:
+                    filtered_matches.append(match)
+            save_matches_to_cache(league_id, api_date, filtered_matches)
+
         if not filtered_matches:
             bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")
             return False

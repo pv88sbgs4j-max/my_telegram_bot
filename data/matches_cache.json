@@ -1,0 +1,576 @@
+{
+  "47": {
+    "20260829": [
+      {
+        "id": 5795429,
+        "leagueId": 47,
+        "time": "28.08.2026 21:00",
+        "home": {
+          "id": 9826,
+          "score": 1,
+          "name": "Crystal Palace",
+          "longName": "Crystal Palace"
+        },
+        "away": {
+          "id": 8456,
+          "score": 4,
+          "name": "Man City",
+          "longName": "Manchester City"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "2",
+        "status": {
+          "utcTime": "2026-08-28T19:00:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "28.08.2026 21:01:17",
+            "secondHalfStarted": "28.08.2026 22:03:28"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "1 - 4",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787943600000
+      },
+      {
+        "id": 5795431,
+        "leagueId": 47,
+        "time": "29.08.2026 13:30",
+        "home": {
+          "id": 8650,
+          "score": 2,
+          "name": "Liverpool",
+          "longName": "Liverpool"
+        },
+        "away": {
+          "id": 10203,
+          "score": 2,
+          "name": "Nottm Forest",
+          "longName": "Nottingham Forest"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "2",
+        "status": {
+          "utcTime": "2026-08-29T11:30:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "29.08.2026 13:31:31",
+            "secondHalfStarted": "29.08.2026 14:36:25"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "2 - 2",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1788003000000
+      },
+      {
+        "id": 5795425,
+        "leagueId": 47,
+        "time": "29.08.2026 16:00",
+        "home": {
+          "id": 8678,
+          "score": 1,
+          "name": "Bournemouth",
+          "longName": "AFC Bournemouth"
+        },
+        "away": {
+          "id": 8668,
+          "score": 1,
+          "name": "Everton",
+          "longName": "Everton"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "2",
+        "status": {
+          "utcTime": "2026-08-29T14:00:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "29.08.2026 16:00:15",
+            "secondHalfStarted": "29.08.2026 17:02:36"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "1 - 1",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1788012000000
+      },
+      {
+        "id": 5795428,
+        "leagueId": 47,
+        "time": "29.08.2026 16:00",
+        "home": {
+          "id": 8669,
+          "score": 0,
+          "name": "Coventry",
+          "longName": "Coventry City"
+        },
+        "away": {
+          "id": 8667,
+          "score": 1,
+          "name": "Hull",
+          "longName": "Hull City"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "2",
+        "status": {
+          "utcTime": "2026-08-29T14:00:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "29.08.2026 16:00:41",
+            "secondHalfStarted": "29.08.2026 17:04:34"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "0 - 1",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1788012000000
+      },
+      {
+        "id": 5795434,
+        "leagueId": 47,
+        "time": "29.08.2026 18:30",
+        "home": {
+          "id": 8586,
+          "score": 0,
+          "name": "Tottenham",
+          "longName": "Tottenham Hotspur"
+        },
+        "away": {
+          "id": 10261,
+          "score": 2,
+          "name": "Newcastle",
+          "longName": "Newcastle United"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 3,
+        "tournamentStage": "2",
+        "status": {
+          "utcTime": "2026-08-29T16:30:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "29.08.2026 18:30:26",
+            "secondHalfStarted": "29.08.2026 19:31:52"
+          },
+          "periodLength": 45,
+          "finished": false,
+          "started": true,
+          "cancelled": false,
+          "ongoing": true,
+          "scoreStr": "0 - 2",
+          "liveTime": {
+            "short": "93‎’‎",
+            "shortKey": "",
+            "long": "92:41",
+            "longKey": "",
+            "maxTime": 90,
+            "basePeriod": 90,
+            "addedTime": 0
+          }
+        },
+        "timeTS": 1788021000000
+      }
+    ],
+    "20260828": [],
+    "20260823": [
+      {
+        "id": 5795369,
+        "leagueId": 47,
+        "time": "23.08.2026 15:00",
+        "home": {
+          "id": 10204,
+          "score": 4,
+          "name": "Brighton",
+          "longName": "Brighton & Hove Albion"
+        },
+        "away": {
+          "id": 10252,
+          "score": 0,
+          "name": "Aston Villa",
+          "redCards": 1,
+          "longName": "Aston Villa"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-23T13:00:00.000Z",
+          "numberOfAwayRedCards": 1,
+          "halfs": {
+            "firstHalfStarted": "23.08.2026 15:00:16",
+            "secondHalfStarted": "23.08.2026 16:05:38"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "4 - 0",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787490000000
+      },
+      {
+        "id": 5795370,
+        "leagueId": 47,
+        "time": "23.08.2026 15:00",
+        "home": {
+          "id": 8456,
+          "score": 2,
+          "name": "Man City",
+          "longName": "Manchester City"
+        },
+        "away": {
+          "id": 8678,
+          "score": 1,
+          "name": "Bournemouth",
+          "longName": "AFC Bournemouth"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-23T13:00:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "23.08.2026 15:03:32",
+            "secondHalfStarted": "23.08.2026 16:06:00"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "2 - 1",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787490000000
+      },
+      {
+        "id": 5795371,
+        "leagueId": 47,
+        "time": "23.08.2026 17:30",
+        "home": {
+          "id": 10261,
+          "score": 2,
+          "name": "Newcastle",
+          "longName": "Newcastle United"
+        },
+        "away": {
+          "id": 8650,
+          "score": 2,
+          "name": "Liverpool",
+          "longName": "Liverpool"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-23T15:30:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "23.08.2026 17:31:55",
+            "secondHalfStarted": "23.08.2026 18:33:46"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "2 - 2",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787499000000
+      }
+    ],
+    "20260822": [
+      {
+        "id": 5795363,
+        "leagueId": 47,
+        "time": "21.08.2026 21:00",
+        "home": {
+          "id": 9825,
+          "score": 3,
+          "name": "Arsenal",
+          "longName": "Arsenal"
+        },
+        "away": {
+          "id": 8669,
+          "score": 0,
+          "name": "Coventry",
+          "longName": "Coventry City"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-21T19:00:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "21.08.2026 21:00:14",
+            "secondHalfStarted": "21.08.2026 22:02:34"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "3 - 0",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787338800000
+      },
+      {
+        "id": 5795364,
+        "leagueId": 47,
+        "time": "22.08.2026 13:30",
+        "home": {
+          "id": 8667,
+          "score": 2,
+          "name": "Hull",
+          "longName": "Hull City"
+        },
+        "away": {
+          "id": 10260,
+          "score": 0,
+          "name": "Man United",
+          "longName": "Manchester United"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-22T11:30:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "22.08.2026 13:30:11",
+            "secondHalfStarted": "22.08.2026 14:33:16"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "2 - 0",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787398200000
+      },
+      {
+        "id": 5795365,
+        "leagueId": 47,
+        "time": "22.08.2026 16:00",
+        "home": {
+          "id": 8668,
+          "score": 2,
+          "name": "Everton",
+          "longName": "Everton"
+        },
+        "away": {
+          "id": 9826,
+          "score": 0,
+          "name": "Crystal Palace",
+          "longName": "Crystal Palace"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-22T14:00:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "22.08.2026 16:00:26",
+            "secondHalfStarted": "22.08.2026 17:06:13"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "2 - 0",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787407200000
+      },
+      {
+        "id": 5795366,
+        "leagueId": 47,
+        "time": "22.08.2026 16:00",
+        "home": {
+          "id": 9902,
+          "score": 2,
+          "name": "Ipswich",
+          "longName": "Ipswich Town"
+        },
+        "away": {
+          "id": 8472,
+          "score": 1,
+          "name": "Sunderland",
+          "longName": "Sunderland"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-22T14:00:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "22.08.2026 16:00:29",
+            "secondHalfStarted": "22.08.2026 17:03:45"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "2 - 1",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787407200000
+      },
+      {
+        "id": 5795367,
+        "leagueId": 47,
+        "time": "22.08.2026 16:00",
+        "home": {
+          "id": 10203,
+          "score": 0,
+          "name": "Nottm Forest",
+          "longName": "Nottingham Forest"
+        },
+        "away": {
+          "id": 8463,
+          "score": 1,
+          "name": "Leeds",
+          "longName": "Leeds United"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-22T14:00:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "22.08.2026 16:00:50",
+            "secondHalfStarted": "22.08.2026 17:03:58"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "0 - 1",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787407200000
+      },
+      {
+        "id": 5795368,
+        "leagueId": 47,
+        "time": "22.08.2026 18:30",
+        "home": {
+          "id": 9937,
+          "score": 3,
+          "name": "Brentford",
+          "longName": "Brentford"
+        },
+        "away": {
+          "id": 8586,
+          "score": 0,
+          "name": "Tottenham",
+          "longName": "Tottenham Hotspur"
+        },
+        "eliminatedTeamId": null,
+        "statusId": 6,
+        "tournamentStage": "1",
+        "status": {
+          "utcTime": "2026-08-22T16:30:00.000Z",
+          "halfs": {
+            "firstHalfStarted": "22.08.2026 18:30:18",
+            "secondHalfStarted": "22.08.2026 19:32:48"
+          },
+          "periodLength": 45,
+          "finished": true,
+          "started": true,
+          "cancelled": false,
+          "awarded": false,
+          "scoreStr": "3 - 0",
+          "reason": {
+            "short": "FT",
+            "shortKey": "fulltime_short",
+            "long": "Full-Time",
+            "longKey": "finished"
+          }
+        },
+        "timeTS": 1787416200000
+      }
+    ]
+  }
+}

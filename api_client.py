@@ -1,5 +1,5 @@
 import requests
-from config import headers
+from config import headers, url
 
 def get_match_details(match_id):
     url_home = "https://free-api-live-football-data.p.rapidapi.com/football-get-hometeam-lineup"
@@ -14,4 +14,9 @@ def get_match_details(match_id):
     
     return home_data, away_data
 
+def get_matches_by_date(date):
+    querystring = {"date": date}
+    response = requests.get(url, headers=headers, params=querystring)
+    response.raise_for_status()
+    return response.json()
 

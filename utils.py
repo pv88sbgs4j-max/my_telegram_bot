@@ -11,6 +11,7 @@ def format_players(players):
         text += f"  • #{number} {name}\n"
     return text
 
+
 def format_match_details(home_data, away_data):
     home_response = home_data.get("response", {})
     away_response = away_data.get("response", {})
@@ -25,6 +26,7 @@ def format_match_details(home_data, away_data):
     away_name = away_lineup.get("name", "Команда 2")
     away_formation = away_lineup.get("formation", "не указана")
     away_rating = away_lineup.get("rating", "?")
+
     
     text = f"⚽ **{home_name} 🆚 {away_name}**\n\n"
     

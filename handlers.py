@@ -7,6 +7,7 @@ from api_client import get_match_details
 from utils import get_today_date, format_match_details
 from cache import get_cached_matches, save_matches_to_cache
 from api_client import get_matches_by_date
+from cache import get_cached_lineups, save_lineups_to_cache
 
 user_state = {}
 
@@ -85,9 +86,17 @@ def register_handlers(bot: TeleBot):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
         try:
-            home_data, away_data = get_match_details(match_id)
-            text = format_match_details(home_data, away_data)
-            bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
+            cached = get_cached_lineups(match_id)
+            if cached is not None:
+                home_data = cached["home"]
+                away_data = cached["away"]
+                text = format_match_details(home_data, away_data)
+                bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
+            else:
+                home_data, away_data = get_match_details(match_id)
+                text = format_match_details(home_data, away_data)
+                bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
+                save_lineups_to_cache(match_id, {"home": home_data, "away": away_data})
         except Exception as e:
             bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
 

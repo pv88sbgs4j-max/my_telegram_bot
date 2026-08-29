@@ -18,6 +18,7 @@ LEAGUE_IDS = {
 }
 
 url = "https://free-api-live-football-data.p.rapidapi.com/football-get-matches-by-date"
+url_for_score = "https://free-api-live-football-data.p.rapidapi.com/football-get-match-detail"
 
 API_KEY = os.getenv("API_KEY")
 API_HOST = "free-api-live-football-data.p.rapidapi.com"

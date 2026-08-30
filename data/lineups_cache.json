@@ -15793,5 +15793,1125 @@
         }
       }
     }
+  },
+  "5795427": {
+    "home": {
+      "status": "success",
+      "response": {
+        "lineup": {
+          "id": 8455,
+          "name": "Chelsea",
+          "rating": 0,
+          "formation": "3-4-2-1",
+          "starters": [
+            {
+              "id": 268375,
+              "age": 33,
+              "name": "Emiliano Martínez",
+              "positionId": 11,
+              "usualPlayingPositionId": 0,
+              "shirtNumber": "26",
+              "countryName": "Argentina",
+              "countryCode": "ARG",
+              "horizontalLayout": {
+                "x": 0.1,
+                "y": 0.5,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.5,
+                "y": 0.1,
+                "height": 0.192,
+                "width": 1
+              },
+              "marketValue": 16762499,
+              "performance": {},
+              "firstName": "Emiliano",
+              "lastName": "Martínez",
+              "rankings": null
+            },
+            {
+              "id": 917802,
+              "age": 25,
+              "name": "Wesley Fofana",
+              "positionId": 33,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "3",
+              "countryName": "France",
+              "countryCode": "FRA",
+              "horizontalLayout": {
+                "x": 0.292,
+                "y": 0.79,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.21,
+                "y": 0.292,
+                "height": 0.192,
+                "width": 0.29
+              },
+              "marketValue": 27670184,
+              "performance": {},
+              "firstName": "Wesley",
+              "lastName": "Fofana",
+              "rankings": null
+            },
+            {
+              "id": 950485,
+              "age": 26,
+              "name": "Maxence Lacroix",
+              "positionId": 35,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "5",
+              "countryName": "France",
+              "countryCode": "FRA",
+              "horizontalLayout": {
+                "x": 0.292,
+                "y": 0.5,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.5,
+                "y": 0.292,
+                "height": 0.192,
+                "width": 0.29
+              },
+              "marketValue": 41791575,
+              "performance": {
+                "seasonAssists": 1,
+                "seasonRating": 8.1
+              },
+              "firstName": "Maxence",
+              "lastName": "Lacroix",
+              "rankings": null
+            },
+            {
+              "id": 1096400,
+              "age": 23,
+              "name": "Levi Colwill",
+              "positionId": 37,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "6",
+              "isCaptain": true,
+              "countryName": "England",
+              "countryCode": "ENG",
+              "horizontalLayout": {
+                "x": 0.292,
+                "y": 0.21,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.79,
+                "y": 0.292,
+                "height": 0.192,
+                "width": 0.29
+              },
+              "marketValue": 58232827,
+              "performance": {
+                "seasonRating": 6.68
+              },
+              "firstName": "Levi",
+              "lastName": "Colwill",
+              "rankings": null
+            },
+            {
+              "id": 1197250,
+              "age": 23,
+              "name": "Malo Gusto",
+              "positionId": 62,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "27",
+              "countryName": "France",
+              "countryCode": "FRA",
+              "horizontalLayout": {
+                "x": 0.485,
+                "y": 0.875,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.125,
+                "y": 0.485,
+                "height": 0.192,
+                "width": 0.25
+              },
+              "marketValue": 37193520,
+              "performance": {
+                "seasonRating": 6.69
+              },
+              "firstName": "Malo",
+              "lastName": "Gusto",
+              "rankings": null
+            },
+            {
+              "id": 1096353,
+              "age": 24,
+              "name": "Cole Palmer",
+              "positionId": 64,
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "10",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "horizontalLayout": {
+                "x": 0.485,
+                "y": 0.625,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.375,
+                "y": 0.485,
+                "height": 0.192,
+                "width": 0.25
+              },
+              "marketValue": 93115927,
+              "performance": {
+                "seasonGoals": 1,
+                "seasonAssists": 1,
+                "seasonRating": 9.08
+              },
+              "firstName": "Cole",
+              "lastName": "Palmer",
+              "rankings": null
+            },
+            {
+              "id": 1190867,
+              "age": 22,
+              "name": "Roméo Lavia",
+              "positionId": 66,
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "45",
+              "countryName": "Belgium",
+              "countryCode": "BEL",
+              "horizontalLayout": {
+                "x": 0.485,
+                "y": 0.375,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.625,
+                "y": 0.485,
+                "height": 0.192,
+                "width": 0.25
+              },
+              "marketValue": 29463153,
+              "performance": {
+                "seasonRating": 7.31
+              },
+              "firstName": "Roméo",
+              "lastName": "Lavia",
+              "rankings": null
+            },
+            {
+              "id": 1413846,
+              "age": 20,
+              "name": "Jorrel Hato",
+              "positionId": 68,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "21",
+              "countryName": "Netherlands",
+              "countryCode": "NED",
+              "horizontalLayout": {
+                "x": 0.485,
+                "y": 0.125,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.875,
+                "y": 0.485,
+                "height": 0.192,
+                "width": 0.25
+              },
+              "marketValue": 44611535,
+              "performance": {
+                "seasonRating": 7.08
+              },
+              "firstName": "Jorrel",
+              "lastName": "Hato",
+              "rankings": null
+            },
+            {
+              "id": 843040,
+              "age": 26,
+              "name": "Pedro Neto",
+              "positionId": 84,
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "7",
+              "countryName": "Portugal",
+              "countryCode": "POR",
+              "horizontalLayout": {
+                "x": 0.678,
+                "y": 0.7,
+                "height": 0.25,
+                "width": 0.193
+              },
+              "verticalLayout": {
+                "x": 0.3,
+                "y": 0.678,
+                "height": 0.192,
+                "width": 0.4
+              },
+              "marketValue": 51701991,
+              "performance": {
+                "seasonRating": 6.88
+              },
+              "firstName": "Pedro",
+              "lastName": "Neto",
+              "rankings": null
+            },
+            {
+              "id": 883080,
+              "age": 24,
+              "name": "Morgan Rogers",
+              "positionId": 86,
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "17",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "horizontalLayout": {
+                "x": 0.678,
+                "y": 0.3,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.7,
+                "y": 0.678,
+                "height": 0.192,
+                "width": 0.4
+              },
+              "marketValue": 73405050,
+              "performance": {
+                "seasonGoals": 1,
+                "seasonRating": 8.65
+              },
+              "firstName": "Morgan",
+              "lastName": "Rogers",
+              "rankings": null
+            },
+            {
+              "id": 1021382,
+              "age": 24,
+              "name": "João Pedro",
+              "positionId": 105,
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "9",
+              "countryName": "Brazil",
+              "countryCode": "BRA",
+              "horizontalLayout": {
+                "x": 0.87,
+                "y": 0.5,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.5,
+                "y": 0.87,
+                "height": 0.192,
+                "width": 1
+              },
+              "marketValue": 63136698,
+              "performance": {
+                "seasonGoals": 1,
+                "seasonAssists": 1,
+                "seasonRating": 8.5
+              },
+              "firstName": "João",
+              "lastName": "Pedro",
+              "shortName": "Joao Pedro",
+              "rankings": null
+            }
+          ],
+          "coach": {
+            "id": 30889,
+            "age": 44,
+            "name": "Xabi Alonso",
+            "countryName": "Spain",
+            "countryCode": "ESP",
+            "firstName": "Xabi",
+            "lastName": "Alonso",
+            "primaryTeamId": 8455,
+            "primaryTeamName": "Chelsea",
+            "usualPlayingPositionId": null,
+            "isCoach": true
+          },
+          "subs": [
+            {
+              "id": 1319972,
+              "age": 21,
+              "name": "Mike Penders",
+              "usualPlayingPositionId": 0,
+              "shirtNumber": "39",
+              "countryName": "Belgium",
+              "countryCode": "BEL",
+              "marketValue": 20379159,
+              "performance": {},
+              "firstName": "Mike",
+              "lastName": "Penders",
+              "rankings": null
+            },
+            {
+              "id": 1400216,
+              "age": 20,
+              "name": "Josh Acheampong",
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "34",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 23925181,
+              "performance": {
+                "seasonRating": 7.37
+              },
+              "firstName": "Josh",
+              "lastName": "Acheampong",
+              "rankings": null
+            },
+            {
+              "id": 988805,
+              "age": 28,
+              "name": "Pep Chavarría",
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "29",
+              "countryName": "Spain",
+              "countryCode": "ESP",
+              "marketValue": 8465849,
+              "performance": {
+                "seasonRating": 5.98
+              },
+              "firstName": "Pep",
+              "lastName": "Chavarría",
+              "rankings": null
+            },
+            {
+              "id": 807729,
+              "age": 26,
+              "name": "Reece James",
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "24",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 44472690,
+              "performance": {
+                "seasonRating": 7.01
+              },
+              "firstName": "Reece",
+              "lastName": "James",
+              "rankings": null
+            },
+            {
+              "id": 1137668,
+              "age": 24,
+              "name": "Moisés Caicedo",
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "25",
+              "countryName": "Ecuador",
+              "countryCode": "ECU",
+              "marketValue": 108900932,
+              "performance": {},
+              "firstName": "Moisés",
+              "lastName": "Caicedo",
+              "rankings": null
+            },
+            {
+              "id": 1272440,
+              "age": 22,
+              "name": "Valentín Barco",
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "4",
+              "countryName": "Argentina",
+              "countryCode": "ARG",
+              "marketValue": 24991145,
+              "performance": {},
+              "firstName": "Valentín",
+              "lastName": "Barco",
+              "rankings": null
+            },
+            {
+              "id": 113836,
+              "age": 35,
+              "name": "Danny Welbeck",
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "18",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 3030875,
+              "performance": {},
+              "firstName": "Danny",
+              "lastName": "Welbeck",
+              "rankings": null
+            },
+            {
+              "id": 1580774,
+              "age": 19,
+              "name": "Estêvão",
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "41",
+              "countryName": "Brazil",
+              "countryCode": "BRA",
+              "marketValue": 87456075,
+              "performance": {},
+              "firstName": "",
+              "lastName": "Estêvão",
+              "rankings": null
+            },
+            {
+              "id": 1113692,
+              "age": 22,
+              "name": "Jamie Gittens",
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "11",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 41989314,
+              "performance": {},
+              "firstName": "Jamie",
+              "lastName": "Gittens",
+              "rankings": null
+            }
+          ],
+          "unavailable": [
+            {
+              "id": 1137705,
+              "age": 25,
+              "name": "Enzo Fernández",
+              "countryName": "Argentina",
+              "countryCode": "ARG",
+              "marketValue": 92583755,
+              "unavailability": {
+                "injuryId": 6,
+                "type": "injury",
+                "expectedReturn": "Doubtful"
+              },
+              "performance": {
+                "seasonRating": 6.4
+              },
+              "firstName": "Enzo",
+              "lastName": "Fernández"
+            },
+            {
+              "id": 156008,
+              "age": 36,
+              "name": "Jordan Henderson",
+              "positionId": 1000,
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 1602436,
+              "unavailability": {
+                "injuryId": 34,
+                "type": "injury",
+                "expectedReturn": "Early September 2026"
+              },
+              "firstName": "Jordan",
+              "lastName": "Henderson"
+            },
+            {
+              "id": 1473806,
+              "age": 21,
+              "name": "Marco Palestra",
+              "positionId": 1000,
+              "countryName": "Italy",
+              "countryCode": "ITA",
+              "marketValue": 12431941,
+              "unavailability": {
+                "injuryId": 121,
+                "type": "injury",
+                "expectedReturn": "Doubtful"
+              },
+              "firstName": "Marco",
+              "lastName": "Palestra"
+            }
+          ],
+          "averageStarterAge": 25.1,
+          "totalStarterMarketValue": 537084959
+        }
+      }
+    },
+    "away": {
+      "status": "success",
+      "response": {
+        "lineup": {
+          "id": 10204,
+          "name": "Brighton & Hove Albion",
+          "rating": 0,
+          "formation": "4-2-3-1",
+          "starters": [
+            {
+              "id": 1131987,
+              "age": 24,
+              "name": "Bart Verbruggen",
+              "positionId": 11,
+              "usualPlayingPositionId": 0,
+              "shirtNumber": "1",
+              "countryName": "Netherlands",
+              "countryCode": "NED",
+              "horizontalLayout": {
+                "x": 0.1,
+                "y": 0.5,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.5,
+                "y": 0.1,
+                "height": 0.192,
+                "width": 1
+              },
+              "marketValue": 43436664,
+              "performance": {
+                "seasonRating": 6.89
+              },
+              "firstName": "Bart",
+              "lastName": "Verbruggen",
+              "rankings": null
+            },
+            {
+              "id": 774448,
+              "age": 26,
+              "name": "Ferdi Kadioglu",
+              "positionId": 32,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "24",
+              "countryName": "Turkiye",
+              "countryCode": "TUR",
+              "horizontalLayout": {
+                "x": 0.292,
+                "y": 0.875,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.125,
+                "y": 0.292,
+                "height": 0.192,
+                "width": 0.25
+              },
+              "marketValue": 30405458,
+              "performance": {},
+              "firstName": "Ferdi",
+              "lastName": "Kadioglu",
+              "rankings": null
+            },
+            {
+              "id": 1413996,
+              "age": 19,
+              "name": "Luka Vuskovic",
+              "positionId": 34,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "44",
+              "countryName": "Croatia",
+              "countryCode": "CRO",
+              "horizontalLayout": {
+                "x": 0.292,
+                "y": 0.625,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.375,
+                "y": 0.292,
+                "height": 0.192,
+                "width": 0.25
+              },
+              "marketValue": 31897584,
+              "performance": {
+                "seasonRating": 7.59
+              },
+              "firstName": "Luka",
+              "lastName": "Vuskovic",
+              "rankings": null
+            },
+            {
+              "id": 201690,
+              "age": 34,
+              "name": "Lewis Dunk",
+              "positionId": 36,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "5",
+              "isCaptain": true,
+              "countryName": "England",
+              "countryCode": "ENG",
+              "horizontalLayout": {
+                "x": 0.292,
+                "y": 0.375,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.625,
+                "y": 0.292,
+                "height": 0.192,
+                "width": 0.25
+              },
+              "marketValue": 2863547,
+              "performance": {
+                "seasonRating": 7.49
+              },
+              "firstName": "Lewis",
+              "lastName": "Dunk",
+              "rankings": null
+            },
+            {
+              "id": 613715,
+              "age": 28,
+              "name": "Olivier Boscagli",
+              "positionId": 38,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "21",
+              "countryName": "France",
+              "countryCode": "FRA",
+              "horizontalLayout": {
+                "x": 0.292,
+                "y": 0.125,
+                "height": 0.25,
+                "width": 0.385
+              },
+              "verticalLayout": {
+                "x": 0.875,
+                "y": 0.292,
+                "height": 0.192,
+                "width": 0.25
+              },
+              "marketValue": 15844610,
+              "performance": {
+                "seasonRating": 7.71
+              },
+              "firstName": "Olivier",
+              "lastName": "Boscagli",
+              "rankings": null
+            },
+            {
+              "id": 970243,
+              "age": 26,
+              "name": "Mats Wieffer",
+              "positionId": 64,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "27",
+              "countryName": "Netherlands",
+              "countryCode": "NED",
+              "horizontalLayout": {
+                "x": 0.485,
+                "y": 0.7,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.3,
+                "y": 0.485,
+                "height": 0.192,
+                "width": 0.4
+              },
+              "marketValue": 17232368,
+              "performance": {
+                "seasonRating": 7.9
+              },
+              "firstName": "Mats",
+              "lastName": "Wieffer",
+              "rankings": null
+            },
+            {
+              "id": 167008,
+              "age": 35,
+              "name": "Pascal Groß",
+              "positionId": 66,
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "13",
+              "countryName": "Germany",
+              "countryCode": "GER",
+              "horizontalLayout": {
+                "x": 0.485,
+                "y": 0.3,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.7,
+                "y": 0.485,
+                "height": 0.192,
+                "width": 0.4
+              },
+              "marketValue": 2360592,
+              "performance": {
+                "seasonRating": 7.93
+              },
+              "firstName": "Pascal",
+              "lastName": "Groß",
+              "rankings": null
+            },
+            {
+              "id": 1354561,
+              "age": 23,
+              "name": "Diego Gómez",
+              "positionId": 83,
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "25",
+              "countryName": "Paraguay",
+              "countryCode": "PAR",
+              "horizontalLayout": {
+                "x": 0.678,
+                "y": 0.837,
+                "height": 0.25,
+                "width": 0.193
+              },
+              "verticalLayout": {
+                "x": 0.162,
+                "y": 0.678,
+                "height": 0.192,
+                "width": 0.325
+              },
+              "marketValue": 3251404,
+              "performance": {
+                "seasonAssists": 1,
+                "seasonRating": 7.94
+              },
+              "firstName": "Diego",
+              "lastName": "Gómez",
+              "rankings": null
+            },
+            {
+              "id": 1602352,
+              "age": 20,
+              "name": "Malick Junior Yalcouyé",
+              "positionId": 85,
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "35",
+              "countryName": "Mali",
+              "countryCode": "MLI",
+              "horizontalLayout": {
+                "x": 0.678,
+                "y": 0.5,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.5,
+                "y": 0.678,
+                "height": 0.192,
+                "width": 0.337
+              },
+              "marketValue": 16120081,
+              "performance": {},
+              "firstName": "Malick Junior",
+              "lastName": "Yalcouyé",
+              "rankings": null
+            },
+            {
+              "id": 1134871,
+              "age": 25,
+              "name": "Maxim De Cuyper",
+              "positionId": 87,
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "29",
+              "countryName": "Belgium",
+              "countryCode": "BEL",
+              "horizontalLayout": {
+                "x": 0.678,
+                "y": 0.163,
+                "height": 0.25,
+                "width": 0.385
+              },
+              "verticalLayout": {
+                "x": 0.837,
+                "y": 0.678,
+                "height": 0.192,
+                "width": 0.325
+              },
+              "marketValue": 20219628,
+              "performance": {
+                "seasonGoals": 1,
+                "seasonRating": 8.61
+              },
+              "firstName": "Maxim",
+              "lastName": "De Cuyper",
+              "rankings": null
+            },
+            {
+              "id": 1561249,
+              "age": 19,
+              "name": "Charalampos Kostoulas",
+              "positionId": 115,
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "19",
+              "countryName": "Greece",
+              "countryCode": "GRE",
+              "horizontalLayout": {
+                "x": 0.87,
+                "y": 0.5,
+                "height": 0.25,
+                "width": 0.192
+              },
+              "verticalLayout": {
+                "x": 0.5,
+                "y": 0.87,
+                "height": 0.192,
+                "width": 1
+              },
+              "marketValue": 26792717,
+              "performance": {
+                "seasonRating": 6.28
+              },
+              "firstName": "Charalampos",
+              "lastName": "Kostoulas",
+              "rankings": null
+            }
+          ],
+          "coach": {
+            "id": 208516,
+            "age": 33,
+            "name": "Fabian Hürzeler",
+            "countryName": "Germany",
+            "countryCode": "GER",
+            "firstName": "Fabian",
+            "lastName": "Hürzeler",
+            "primaryTeamId": 10204,
+            "primaryTeamName": "Brighton & Hove Albion",
+            "usualPlayingPositionId": null,
+            "isCoach": true
+          },
+          "subs": [
+            {
+              "id": 107917,
+              "age": 36,
+              "name": "Jason Steele",
+              "usualPlayingPositionId": 0,
+              "shirtNumber": "23",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 517404,
+              "performance": {},
+              "firstName": "Jason",
+              "lastName": "Steele",
+              "rankings": null
+            },
+            {
+              "id": 1079456,
+              "age": 26,
+              "name": "Costinha",
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "20",
+              "countryName": "Portugal",
+              "countryCode": "POR",
+              "marketValue": 3930149,
+              "performance": {
+                "seasonRating": 6.49
+              },
+              "firstName": "",
+              "lastName": "Costinha",
+              "rankings": null
+            },
+            {
+              "id": 1178324,
+              "age": 23,
+              "name": "Jaouen Hadjam",
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "6",
+              "countryName": "Algeria",
+              "countryCode": "ALG",
+              "marketValue": 7129853,
+              "performance": {},
+              "firstName": "Jaouen",
+              "lastName": "Hadjam",
+              "rankings": null
+            },
+            {
+              "id": 796974,
+              "age": 27,
+              "name": "Pascal Struijk",
+              "usualPlayingPositionId": 1,
+              "shirtNumber": "4",
+              "countryName": "Netherlands",
+              "countryCode": "NED",
+              "marketValue": 18012848,
+              "performance": {},
+              "firstName": "Pascal",
+              "lastName": "Struijk",
+              "rankings": null
+            },
+            {
+              "id": 866686,
+              "age": 25,
+              "name": "Matthew O'Riley",
+              "usualPlayingPositionId": 2,
+              "shirtNumber": "33",
+              "countryName": "Denmark",
+              "countryCode": "DEN",
+              "marketValue": 19909769,
+              "performance": {},
+              "firstName": "Matthew",
+              "lastName": "O'Riley",
+              "rankings": null
+            },
+            {
+              "id": 1254170,
+              "age": 21,
+              "name": "Amario Cozier-Duberry",
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "22",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 3118870,
+              "performance": {},
+              "firstName": "Amario",
+              "lastName": "Cozier-Duberry",
+              "rankings": null
+            },
+            {
+              "id": 1215410,
+              "age": 21,
+              "name": "Ibrahim Osman",
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "15",
+              "countryName": "Ghana",
+              "countryCode": "GHA",
+              "marketValue": 9921654,
+              "performance": {
+                "seasonRating": 6.41
+              },
+              "firstName": "Ibrahim",
+              "lastName": "Osman",
+              "rankings": null
+            },
+            {
+              "id": 1526697,
+              "age": 19,
+              "name": "Nehemiah Oriola",
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "49",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 429980,
+              "performance": {},
+              "firstName": "Nehemiah",
+              "lastName": "Oriola",
+              "rankings": null
+            },
+            {
+              "id": 1252132,
+              "age": 25,
+              "name": "Promise David",
+              "usualPlayingPositionId": 3,
+              "shirtNumber": "12",
+              "countryName": "Canada",
+              "countryCode": "CAN",
+              "marketValue": 13615109,
+              "performance": {},
+              "firstName": "Promise",
+              "lastName": "David",
+              "rankings": null
+            }
+          ],
+          "unavailable": [
+            {
+              "id": 956925,
+              "age": 24,
+              "name": "Georginio Rutter",
+              "countryName": "France",
+              "countryCode": "FRA",
+              "marketValue": 31150647,
+              "unavailability": {
+                "injuryId": 121,
+                "type": "injury",
+                "expectedReturn": "Doubtful"
+              },
+              "performance": {
+                "seasonAssists": 1,
+                "seasonRating": 7.51
+              },
+              "firstName": "Georginio",
+              "lastName": "Rutter"
+            },
+            {
+              "id": 1251334,
+              "age": 21,
+              "name": "Jack Hinshelwood",
+              "countryName": "England",
+              "countryCode": "ENG",
+              "marketValue": 5688071,
+              "unavailability": {
+                "injuryId": 130,
+                "type": "injury",
+                "expectedReturn": "Mid September 2026"
+              },
+              "performance": {
+                "seasonGoals": 2,
+                "seasonRating": 9.01
+              },
+              "firstName": "Jack",
+              "lastName": "Hinshelwood"
+            },
+            {
+              "id": 862608,
+              "age": 29,
+              "name": "Kaoru Mitoma",
+              "countryName": "Japan",
+              "countryCode": "JPN",
+              "marketValue": 19829835,
+              "unavailability": {
+                "injuryId": 42,
+                "type": "injury",
+                "expectedReturn": "Mid September 2026"
+              },
+              "firstName": "Kaoru",
+              "lastName": "Mitoma"
+            },
+            {
+              "id": 1068482,
+              "age": 21,
+              "name": "Evan Ferguson",
+              "positionId": 1000,
+              "countryName": "Ireland",
+              "countryCode": "IRL",
+              "marketValue": 19977046,
+              "unavailability": {
+                "injuryId": 30,
+                "type": "injury",
+                "expectedReturn": "Early October 2026"
+              },
+              "firstName": "Evan",
+              "lastName": "Ferguson"
+            },
+            {
+              "id": 1423616,
+              "age": 20,
+              "name": "Stefanos Tzimas",
+              "positionId": 1000,
+              "countryName": "Greece",
+              "countryCode": "GRE",
+              "marketValue": 24948627,
+              "unavailability": {
+                "injuryId": 76,
+                "type": "injury",
+                "expectedReturn": "Late September 2026"
+              },
+              "firstName": "Stefanos",
+              "lastName": "Tzimas"
+            },
+            {
+              "id": 1400227,
+              "age": 22,
+              "name": "Yankuba Minteh",
+              "positionId": 1000,
+              "countryName": "The Gambia",
+              "countryCode": "",
+              "marketValue": 49659092,
+              "unavailability": {
+                "injuryId": 74,
+                "type": "injury",
+                "expectedReturn": "Mid November 2026"
+              },
+              "firstName": "Yankuba",
+              "lastName": "Minteh"
+            }
+          ],
+          "averageStarterAge": 25.9,
+          "totalStarterMarketValue": 210424653
+        }
+      }
+    }
   }
 }

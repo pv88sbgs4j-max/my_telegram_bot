@@ -12,14 +12,14 @@ def get_match_details(match_id):
     response_away = requests.get(url_away, headers=headers, params=querystring_away)
     away_data = response_away.json()
 
-    response_score = requests.get(url_for_score, headers=headers, params=querystring_home)
-    score_data = response_score.json()
     
-    return home_data, away_data , score_data
+    response_score = requests.get(url_for_score, headers=headers, params=querystring_away)
+    score_data = response_score.json()
+
+    return home_data, away_data, score_data
 
 def get_matches_by_date(date):
     querystring = {"date": date}
     response = requests.get(url, headers=headers, params=querystring)
     response.raise_for_status()
     return response.json()
-

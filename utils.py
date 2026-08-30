@@ -12,7 +12,11 @@ def format_players(players):
     return text
 
 
-def format_match_details(home_data, away_data):
+def format_match_details(home_data, away_data, match_info = None):
+
+    if isinstance(match_info, str):
+        match_info = {}
+    
     home_response = home_data.get("response", {})
     away_response = away_data.get("response", {})
     
@@ -29,6 +33,12 @@ def format_match_details(home_data, away_data):
 
     
     text = f"⚽ **{home_name} 🆚 {away_name}**\n\n"
+
+    if match_info and match_info.get("score"):
+        text += f"📊 **Счёт:** {match_info['score']}\n"
+        if match_info.get("time"):
+            text += f"🕐 {match_info['time']}\n"
+        text += "\n"
     
     text += f"🏠 **{home_name}** (рейтинг: {home_rating})\n"
     text += f"📋 Схема: {home_formation}\n\n"

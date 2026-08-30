@@ -54,10 +54,17 @@ def get_cached_lineups(match_id):
 def save_lineups_to_cache(match_id, matches):
     cache = load_cache_for_lineups()
     match_id_str = str(match_id)
-    
-    if match_id_str not in cache:
-        cache[match_id_str] = {}
-        cache[match_id_str] = matches
-        save_cache(cache)   
+    cache[match_id_str] = matches
     save_cache_for_lineups(cache)
 
+def get_score_by_match_id(match_id):
+    cache = load_cache()  
+    for league_id, dates in cache.items():
+        for date, matches in dates.items():
+            for match in matches:
+                if match.get("id") == match_id:
+                    return {
+                        "score": match.get("status", {}).get("scoreStr", ""),
+                        "time": match.get("time", "")
+                    }
+    return None

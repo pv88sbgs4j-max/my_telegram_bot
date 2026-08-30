@@ -7,7 +7,7 @@ from api_client import get_match_details
 from utils import get_today_date, format_match_details
 from cache import get_cached_matches, save_matches_to_cache
 from api_client import get_matches_by_date
-from cache import get_cached_lineups, save_lineups_to_cache
+from cache import get_cached_lineups, save_lineups_to_cache, get_score_by_match_id
 
 user_state = {}
 
@@ -87,16 +87,23 @@ def register_handlers(bot: TeleBot):
         bot.answer_callback_query(call.id)
         try:
             cached = get_cached_lineups(match_id)
-            if cached is not None:
+            cached_score = get_score_by_match_id(match_id)
+            if cached is not None and cached_score is not None:
                 home_data = cached["home"]
                 away_data = cached["away"]
-                text = format_match_details(home_data, away_data)
+                score = cached_score["score"]
+                time = cached_score["time"]
+                match_info = {"score": score, "time": time}
+                text = format_match_details(home_data, away_data, match_info)
                 bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
             else:
-                home_data, away_data = get_match_details(match_id)
-                text = format_match_details(home_data, away_data)
-                bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
+                home_data, away_data, score_data = get_match_details(match_id)
+                score = score_data.get("response", {}).get("status", {}).get("scoreStr", "")
+                time = score_data.get("response", {}).get("time", "")
                 save_lineups_to_cache(match_id, {"home": home_data, "away": away_data})
+                match_info = {"score": score, "time": time}
+                text = format_match_details(home_data, away_data, match_info)
+                bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
         except Exception as e:
             bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
 

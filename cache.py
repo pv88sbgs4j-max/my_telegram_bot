@@ -68,3 +68,29 @@ def get_score_by_match_id(match_id):
                         "time": match.get("time", "")
                     }
     return None
+
+def get_match_date_and_status(match_id):
+    cache = load_cache()
+    for league_id, dates in cache.items():
+        for date, matches in dates.items():
+            for match in matches:
+                if match.get("id") == match_id:
+                    return {
+                        "date": match.get("time", ""),  
+                        "status": match.get("status", {}).get("reason", {}).get("short", "")
+                    }
+    return None
+
+def update_match_status_in_cache(match_id, new_status):
+    cache = load_cache()
+    for league_id, dates in cache.items():
+        for date, matches in dates.items():
+            for match in matches:
+                if match.get("id") == match_id:
+                    if "status" not in match:
+                        match["status"] = {}
+                    if "reason" not in match["status"]:
+                        match["status"]["reason"] = {}
+                    match["status"]["reason"]["short"] = new_status
+                    save_cache(cache)
+                    return

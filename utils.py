@@ -15,8 +15,6 @@ def format_players(players):
 
 def format_match_details(home_data, away_data, match_info = None):
 
-    if isinstance(match_info, str):
-        match_info = {}
     
     home_response = home_data.get("response", {})
     away_response = away_data.get("response", {})
@@ -60,3 +58,14 @@ def format_match_details(home_data, away_data, match_info = None):
         text += format_players(away_starters)
     
     return text
+
+
+def is_match_date_passed(match_time_str):
+    if not match_time_str:
+        return False
+    try:
+        match_datetime = datetime.strptime(match_time_str, "%d.%m.%Y %H:%M")
+        now = datetime.now()
+        return match_datetime < now
+    except ValueError:
+        return False

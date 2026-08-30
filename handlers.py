@@ -4,10 +4,10 @@ import requests
 from config import LEAGUE_NAME_TICKER, LEAGUE_IDS, url, headers
 from keyboards import main_keyboard, action_keyboard, matches_keyboard
 from api_client import get_match_details
-from utils import get_today_date, format_match_details
+from utils import get_today_date, format_match_details, is_match_date_passed
 from cache import get_cached_matches, save_matches_to_cache
 from api_client import get_matches_by_date
-from cache import get_cached_lineups, save_lineups_to_cache, get_score_by_match_id
+from cache import get_cached_lineups, save_lineups_to_cache, get_score_by_match_id, get_match_date_and_status, update_match_status_in_cache
 
 user_state = {}
 
@@ -86,6 +86,19 @@ def register_handlers(bot: TeleBot):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
         try:
+            match_info_cache = get_match_date_and_status(match_id)
+            if match_info_cache:
+                date_passed = is_match_date_passed(match_info_cache["date"])
+                status = match_info_cache["status"]
+                if date_passed and status != "FT":
+                    cached = None
+                    cached_score = None
+                else:
+                    cached = get_cached_lineups(match_id)
+                    cached_score = get_score_by_match_id(match_id)
+            else:
+                cached = None
+                cached_score = None
             cached = get_cached_lineups(match_id)
             cached_score = get_score_by_match_id(match_id)
             if cached is not None and cached_score is not None:
@@ -94,16 +107,19 @@ def register_handlers(bot: TeleBot):
                 score = cached_score["score"]
                 time = cached_score["time"]
                 match_info = {"score": score, "time": time}
-                text = format_match_details(home_data, away_data, match_info)
-                bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
             else:
                 home_data, away_data, score_data = get_match_details(match_id)
+                print(f"score data: {score_data}")
                 score = score_data.get("response", {}).get("status", {}).get("scoreStr", "")
+                print(f"score: {score}")
                 time = score_data.get("response", {}).get("time", "")
+                print(f"time: {time}")
+                new_status = score_data.get("response", {}).get("status", {}).get("reason", {}).get("short", "")
+                update_match_status_in_cache(match_id, new_status)
                 save_lineups_to_cache(match_id, {"home": home_data, "away": away_data})
                 match_info = {"score": score, "time": time}
-                text = format_match_details(home_data, away_data, match_info)
-                bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
+            text = format_match_details(home_data, away_data, match_info)
+            bot.send_message(call.message.chat.id, text, parse_mode="Markdown")
         except Exception as e:
             bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
 

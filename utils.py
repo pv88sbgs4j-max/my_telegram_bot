@@ -8,7 +8,8 @@ def format_players(players):
     for player in players:
         name = player.get("name", "?")
         number = player.get("shirtNumber", "—")
-        text += f"  • #{number} {name}\n"
+        rating = player.get("performance", {}).get("rating", {})
+        text += f"  • #{number} {name} 📈{rating}\n"
     return text
 
 

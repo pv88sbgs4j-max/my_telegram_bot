@@ -22,6 +22,7 @@ url_for_score = "https://free-api-live-football-data.p.rapidapi.com/football-get
 
 API_KEY = os.getenv("API_KEY")
 API_HOST = "free-api-live-football-data.p.rapidapi.com"
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 
 headers = {
 	"x-rapidapi-key": API_KEY,

@@ -5,11 +5,9 @@ from config import LEAGUE_NAME_TICKER, LEAGUE_IDS, url, headers
 from keyboards import main_keyboard, action_keyboard, matches_keyboard, ai_keyboard_for_not_stated, ai_keyboard_for_ended
 from api_client import get_match_details
 from utils import get_today_date, format_match_details, is_match_date_passed
-from cache import get_cached_matches, save_matches_to_cache
 from api_client import get_matches_by_date
-from cache import get_cached_lineups, save_lineups_to_cache, get_score_by_match_id, get_match_date_and_status, update_match_status_in_cache
-from openai import OpenAI
 from ai_client import ask_deepseek
+from database import *
 
 user_state = {}
 
@@ -88,7 +86,7 @@ def register_handlers(bot: TeleBot):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
         try:
-            match_info_cache = get_match_date_and_status(match_id)
+            match_info_cache = get_match_by_id(match_id)
             if match_info_cache:
                 date_passed = is_match_date_passed(match_info_cache["date"])
                 status = match_info_cache["status"]
@@ -96,13 +94,13 @@ def register_handlers(bot: TeleBot):
                     cached = None
                     cached_score = None
                 else:
-                    cached = get_cached_lineups(match_id)
-                    cached_score = get_score_by_match_id(match_id)
+                    cached = get_lineup(match_id)
+                    cached_score = get_match_by_id(match_id)
             else:
                 cached = None
                 cached_score = None
-            cached = get_cached_lineups(match_id)
-            cached_score = get_score_by_match_id(match_id)
+            cached = get_lineup(match_id)
+            cached_score = get_match_by_id(match_id)
             if cached is not None and cached_score is not None:
                 home_data = cached["home"]
                 away_data = cached["away"]
@@ -117,11 +115,30 @@ def register_handlers(bot: TeleBot):
                 time = score_data.get("response", {}).get("time", "")
                 print(f"time: {time}")
                 new_status = score_data.get("response", {}).get("status", {}).get("reason", {}).get("short", "")
-                update_match_status_in_cache(match_id, new_status)
-                save_lineups_to_cache(match_id, {"home": home_data, "away": away_data})
+                save_match(
+                match_id=match_id,
+                league_id=score_data("leagueId", 0),
+                date=time[:10] if time else "",
+                home_team=home_data.get("name", ""),
+                away_team=away_data.get("name", ""),
+                score=score,
+                status=new_status,
+                time=time
+                )
+                home_lineup = home_data.get("response", {}).get("lineup", {})
+                away_lineup = away_data.get("response", {}).get("lineup", {})
+                save_lineup(
+                match_id=match_id,
+                home_formation=home_lineup.get("formation", ""),
+                home_rating=home_lineup.get("rating", ""),
+                home_starters=home_lineup.get("starters", []),
+                away_formation=away_lineup.get("formation", ""),
+                away_rating=away_lineup.get("rating", ""),
+                away_starters=away_lineup.get("starters", [])
+                )
                 match_info = {"score": score, "time": time}
             text = format_match_details(home_data, away_data, match_info)
-            if get_match_date_and_status(match_id)["status"] == "FT":
+            if get_match_by_id(match_id)["status"] == "FT":
                 bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_ended(match_id), parse_mode="Markdown")
             else:
                 bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_not_stated(match_id), parse_mode="Markdown")
@@ -133,10 +150,10 @@ def register_handlers(bot: TeleBot):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
 
-        cached_score = get_score_by_match_id(match_id)
-        cached = get_cached_lineups(match_id)
-        home = cached["home"]
-        away = cached["away"]
+        cached_score = get_match_by_id(match_id)
+        cached = get_lineup(match_id)
+        home = cached["home_starters"]
+        away = cached["away_startes"]
         time = cached_score["time"]
 
         prompt = f"Спрогнозируй результат матча между {home} и {away} они играют {time}. Используй статистику, кто фаворит, кто аутсайдер. Необязательно давать прогноз на счет, можно давать прогнозы на угловые, удары а створ если о этом явно говорит статистика, но и на счет(фору) можешь давать прогноз. Ответ пиши на русском"
@@ -148,8 +165,8 @@ def register_handlers(bot: TeleBot):
     def handle_review(call):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
-        cached_score = get_score_by_match_id(match_id)
-        cached = get_cached_lineups(match_id)
+        cached_score = get_match_by_id(match_id)
+        cached = get_lineup(match_id)
         home = cached["home"]
         away = cached["away"]
         time = cached_score["time"]
@@ -168,8 +185,8 @@ def register_handlers(bot: TeleBot):
         today_api = datetime.now().strftime("%Y%m%d")
 
         if api_date < today_api:
-            cached = get_cached_matches(league_id, api_date)
-            if cached is not None:
+            cached = get_matches(league_id, api_date)
+            if cached:
                 filtered_matches = cached
             else:
                 data = get_matches_by_date(api_date)
@@ -177,14 +194,32 @@ def register_handlers(bot: TeleBot):
                 for match in data.get("response", {}).get("matches", []):
                     if match.get("leagueId") == league_id:
                         filtered_matches.append(match)
-                save_matches_to_cache(league_id, api_date, filtered_matches)
+                save_match(
+                match_id=match.get("id"),
+                league_id=league_id,
+                date=api_date,
+                home_team=match.get("home", {}).get("name", ""),
+                away_team=match.get("away", {}).get("name", ""),
+                score=match.get("status", {}).get("scoreStr", ""),
+                status=match.get("status", {}).get("reason", {}).get("short", ""),
+                time=match.get("time", "")
+                )
         else:
             data = get_matches_by_date(api_date)
             filtered_matches = []
             for match in data.get("response", {}).get("matches", []):
                 if match.get("leagueId") == league_id:
                     filtered_matches.append(match)
-            save_matches_to_cache(league_id, api_date, filtered_matches)
+            save_match(
+            match_id=match.get("id"),
+            league_id=league_id,
+            date=api_date,
+            home_team=match.get("home", {}).get("name", ""),
+            away_team=match.get("away", {}).get("name", ""),
+            score=match.get("status", {}).get("scoreStr", ""),
+            status=match.get("status", {}).get("reason", {}).get("short", ""),
+            time=match.get("time", "")
+            )
 
         if not filtered_matches:
             bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")

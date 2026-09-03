@@ -21,11 +21,13 @@ def action_keyboard():
 def matches_keyboard(filtered_matches):
     markup = InlineKeyboardMarkup(row_width=1)  
     for match in filtered_matches:
-        home = match.get("home", {}).get("name", "?")
-        away = match.get("away", {}).get("name", "?")
+        home = match.get("home_team", {}).get("name", "?")
+        away = match.get("away_team", {}).get("name", "?")
         time = match.get("time", "—")
         button_text = f"{home} 🆚 {away}  {time}"
-        match_id = match.get("id")
+        
+        match_id = match.get("match_id") or match.get("id")
+        
         button = InlineKeyboardButton(button_text, callback_data=f"match_{match_id}")
         markup.add(button)
     return markup

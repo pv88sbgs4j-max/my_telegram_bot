@@ -22,3 +22,5 @@ def ask_deepseek(promt: str):
     except Exception as e:
         return f"❌ Ошибка при запросе к DeepSeek: {e}"
 
+
+

@@ -34,9 +34,76 @@ def init_db():
             away_starters TEXT
         )
     """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS prediction (
+        match_id INTEGER PRIMARY KEY,
+        prediction TEXT)
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS review (
+        match_id INTEGER PRIMARY KEY,
+        review TEXT)
+    """)
     
     conn.commit()
     conn.close()
+
+
+def save_prediction(match_id,prediction):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT OR REPLACE INTO prediction (match_id, prediction)
+        VALUES (? , ?)
+        """, (match_id, prediction))
+    conn.commit()
+    conn.close()
+
+
+def get_prediction(match_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT * FROM prediction WHERE match_id = ?
+        """, (match_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        return {
+            "match_id": row[0],
+            "prediction": row[1]
+        }
+    return None
+
+
+def save_review(match_id,review):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT OR REPLACE INTO review (match_id, review)
+        VALUES (? , ?)
+        """, (match_id, review))
+    conn.commit()
+    conn.close()
+
+
+def get_review(match_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT * FROM review WHERE match_id = ?
+        """, (match_id,))
+    row = cursor.fetchone()
+    conn.close()
+    if row:
+        return {
+            "match_id": row[0],
+            "review": row[1]
+        }
+    return None
 
 
 def save_match(match_id, league_id, date, home_team, away_team, score, status, time):

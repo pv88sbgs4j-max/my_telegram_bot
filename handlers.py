@@ -145,36 +145,53 @@ def register_handlers(bot: TeleBot):
         except Exception as e:
             bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
 
+
     @bot.callback_query_handler(func = lambda call: call.data.startswith("prediction_"))
     def handle_prediction(call):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
+        cached = get_match_by_id(match_id)
+        cached_prediction = get_prediction(match_id)
 
-        cached_score = get_match_by_id(match_id)
-        cached = get_lineup(match_id)
-        home = cached["home_starters"]
-        away = cached["away_startes"]
-        time = cached_score["time"]
-
-        prompt = f"Спрогнозируй результат матча между {home} и {away} они играют {time}. Используй статистику, кто фаворит, кто аутсайдер. Необязательно давать прогноз на счет, можно давать прогнозы на угловые, удары а створ если о этом явно говорит статистика, но и на счет(фору) можешь давать прогноз. Ответ пиши на русском"
-        bot.send_message(call.message.chat.id, "🧠 Думаю...")
-        prediction = ask_deepseek(prompt)
+        if cached_prediction:
+            prediction = cached_prediction["prediction"]
+        else:  
+            home = cached["home_team"]
+            away = cached["away_team"]
+            time = cached["time"]
+            try:
+                prompt = f"Спрогнозируй результат матча между {home} и {away} они играют {time}. Используй статистику, кто фаворит, кто аутсайдер. Необязательно давать прогноз на счет, можно давать прогнозы на угловые, удары а створ если о этом явно говорит статистика, но и на счет(фору) можешь давать прогноз. Ответ пиши на русском"
+                bot.send_message(call.message.chat.id, "🧠 Думаю...")
+                prediction = ask_deepseek(prompt)
+                save_prediction(match_id, prediction)
+            except Exception as e:
+                bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
         bot.send_message(call.message.chat.id, prediction, parse_mode="HTML")
+        
+
 
     @bot.callback_query_handler(func = lambda call: call.data.startswith("review_"))
     def handle_review(call):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
-        cached_score = get_match_by_id(match_id)
-        cached = get_lineup(match_id)
-        home = cached["home"]
-        away = cached["away"]
-        time = cached_score["time"]
+        cached = get_match_by_id(match_id)
+        cahched_review = get_review(match_id)
 
-        prompt = f"Дай краткий обзор матча между {home} и {away}. Они играли {time}. Расскажи на каких минутах происходили ключевые события"
-        bot.send_message(call.message.chat.id, "🧠 Думаю...")
-        review = ask_deepseek(prompt)
+        if cahched_review:
+            review = cahched_review["review"]
+        else:
+            home = cached["home_team"]
+            away = cached["away_team"]
+            time = cached["time"]
+            try:
+                prompt = f"Дай краткий обзор матча между {home} и {away}. Они играли {time}. Расскажи на каких минутах происходили ключевые события"
+                bot.send_message(call.message.chat.id, "🧠 Думаю...")
+                review = ask_deepseek(prompt)
+                save_review(match_id, review)
+            except Exception as e:
+                bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
         bot.send_message(call.message.chat.id, review, parse_mode="HTML")
+
 
     def show_matches(chat_id, league_name, api_date, display_date):
         league_id = LEAGUE_IDS.get(league_name)

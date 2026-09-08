@@ -45,3 +45,9 @@ def ai_keyboard_for_ended(match_id):
     button_review = InlineKeyboardButton(button_text_review, callback_data=f"review_{match_id}")
     markup.add(button_review)
     return markup
+
+
+def back_to_matches():
+    markup = ReplyKeyboardMarkup(row_width = 1, resize_keyboard= True)
+    markup.add(KeyboardButton("⬅️ К матчам"))
+    return markup

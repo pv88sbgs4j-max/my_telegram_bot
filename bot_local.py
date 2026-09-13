@@ -14,5 +14,5 @@ register_handlers(bot)
 print("🤖 Бот запущен локально в режиме polling...")
 
 
-
+bot.remove_webhook()
 bot.infinity_polling()

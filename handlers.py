@@ -223,7 +223,12 @@ def register_handlers(bot: TeleBot):
 
         if api_date < today_api:
             cached = get_matches(league_id, api_date)
-            if cached:
+            update = False
+            for match in cached:
+                status = match["status"]["reason"]["short"]
+                if status != "FT":
+                    update = True
+            if cached and update == False:
                 filtered_matches = cached
             else:
                 data = get_matches_by_date(api_date)

@@ -19,10 +19,9 @@ def register_handlers(bot: TeleBot):
 
     @bot.message_handler(func=lambda message: message.text in LEAGUE_NAME_TICKER)
     def handle_league_choice(message):
+        chat_id = message.chat.id
         league_name = message.text
-        if message.chat.id not in user_state:
-            user_state[message.chat.id] = {}
-        user_state[message.chat.id]["league"] = league_name
+        save_user_state(chat_id, league_name, None, None)
         bot.send_message(
             message.chat.id,
             f"Вы выбрали **{league_name}**. Выберите вариант:",
@@ -54,7 +53,8 @@ def register_handlers(bot: TeleBot):
     @bot.message_handler(func=lambda message: message.text == "✏️ Ввести дату")
     def handle_manual_date_button(message):
         chat_id = message.chat.id
-        if chat_id not in user_state:
+        user_state = get_user_state(chat_id)
+        if not user_state:
             bot.reply_to(message, "❌ Сначала выберите лигу через /start")
             return
         bot.send_message(
@@ -67,12 +67,14 @@ def register_handlers(bot: TeleBot):
     @bot.message_handler(func=lambda message: message.text == "⬅️ К матчам")
     def handle_back_to_matches(message):
         chat_id = message.chat.id
-        if chat_id not in user_state:
+        state = get_user_state(chat_id)
+        if not state:
             bot.reply_to(message, "❌ Нет данных для возврата.")
             return
-        league_name = user_state[chat_id].get("league")
-        last_date = user_state[chat_id].get("last_date")
-        last_display_date = user_state[chat_id].get("last_display_date")
+        league_name = state.get("last_league")
+        last_date = state.get("last_api_date")
+        last_display_date = state.get("last_display_date")
+
         if not league_name or not last_date:
             bot.reply_to(message, "❌ Не удалось восстановить список матчей.")
         else:
@@ -83,9 +85,10 @@ def register_handlers(bot: TeleBot):
     @bot.message_handler(func=lambda message: True)
     def handle_date_input(message):
         chat_id = message.chat.id
-        if chat_id not in user_state:
+        state = get_user_state(chat_id)
+        if not state:
             return
-        league_name = user_state[chat_id].get("league")
+        league_name = state.get("last_league")
         if not league_name:
             return
         date_str = message.text.strip()
@@ -152,7 +155,7 @@ def register_handlers(bot: TeleBot):
         if not league_id:
             bot.send_message(chat_id, "❌ Ошибка: ID лиги не найден.")
             return False
-
+        save_user_state(chat_id, league_name, api_date, display_date)
         today_api = datetime.now().strftime("%Y%m%d")
 
         if api_date < today_api:
@@ -198,11 +201,12 @@ def register_handlers(bot: TeleBot):
                 )
 
 
+
+
         if not filtered_matches:
             bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")
             return False
-        user_state[chat_id]["last_date"] = api_date
-        user_state[chat_id]["last_display_date"] = display_date
+        save_user_state(chat_id, league_name, api_date, display_date)
         bot.send_message(
             chat_id,
             f"⚽ **{league_name} — матчи на {display_date}**\n\nНажмите на матч для подробностей:",

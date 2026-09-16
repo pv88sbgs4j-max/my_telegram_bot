@@ -1,5 +1,6 @@
 import sqlite3
 import json
+from datetime import datetime
 
 DB_PATH = "bot_cache.db"
 
@@ -46,9 +47,46 @@ def init_db():
         match_id INTEGER PRIMARY KEY,
         review TEXT)
     """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS user_state (
+        chat_id INTEGER PRIMARY KEY,
+        last_league TEXT,
+        last_api_date TEXT,
+        last_display_date TEXT,
+        updated_at TEXT)
+    """)
     
     conn.commit()
     conn.close()
+
+
+def save_user_state(chat_id, league, api_date, display_date):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT OR REPLACE INTO user_state (chat_id, last_league, last_api_date, last_display_date, updated_at)
+        VALUES (? , ? , ? , ? , ?)
+        """, (chat_id, league, api_date, display_date, datetime.now().isoformat()))
+    conn.commit()
+    conn.close()
+
+
+def get_user_state(chat_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM user_state WHERE chat_id = ?", (chat_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        return {
+            "chat_id": row[0],
+            "last_league": row[1],
+            "last_api_date": row[2],
+            "last_display_date": row[3]
+        }
+    return None
 
 
 def save_prediction(match_id,prediction):

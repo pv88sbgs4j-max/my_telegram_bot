@@ -98,72 +98,6 @@ def register_handlers(bot: TeleBot):
             return 
         show_matches(chat_id, league_name, api_date, display_date)
         
-            
-    @bot.callback_query_handler(func=lambda call: call.data.startswith("match_"))
-    def handle_match_callback(call):
-        match_id = int(call.data.split("_")[1])
-        bot.answer_callback_query(call.id)
-        try:
-            match_info_cache = get_match_by_id(match_id)
-            if match_info_cache:
-                date_passed = is_match_date_passed(match_info_cache["date"])
-                status = match_info_cache["status"]
-                if date_passed and status != "FT":
-                    cached = None
-                    cached_score = None
-                else:
-                    cached = get_lineup(match_id)
-                    cached_score = get_match_by_id(match_id)
-            else:
-                cached = None
-                cached_score = None
-            cached = get_lineup(match_id)
-            cached_score = get_match_by_id(match_id)
-            if cached is not None and cached_score is not None:
-                home_data = cached["home"]
-                away_data = cached["away"]
-                score = cached_score["score"]
-                time = cached_score["time"]
-                match_info = {"score": score, "time": time}
-            else:
-                home_data, away_data, score_data = get_match_details(match_id)
-                print(f"score data: {score_data}")
-                score = score_data.get("response", {}).get("status", {}).get("scoreStr", "")
-                print(f"score: {score}")
-                time = score_data.get("response", {}).get("time", "")
-                print(f"time: {time}")
-                new_status = score_data.get("response", {}).get("status", {}).get("reason", {}).get("short", "")
-                save_match(
-                match_id=match_id,
-                league_id=score_data("leagueId", 0),
-                date=time[:10] if time else "",
-                home_team=home_data.get("name", ""),
-                away_team=away_data.get("name", ""),
-                score=score,
-                status=new_status,
-                time=time
-                )
-                home_lineup = home_data.get("response", {}).get("lineup", {})
-                away_lineup = away_data.get("response", {}).get("lineup", {})
-                save_lineup(
-                match_id=match_id,
-                home_formation=home_lineup.get("formation", ""),
-                home_rating=home_lineup.get("rating", ""),
-                home_starters=home_lineup.get("starters", []),
-                away_formation=away_lineup.get("formation", ""),
-                away_rating=away_lineup.get("rating", ""),
-                away_starters=away_lineup.get("starters", [])
-                )
-                match_info = {"score": score, "time": time}
-            text = format_match_details(home_data, away_data, match_info)
-            if get_match_by_id(match_id)["status"] == "FT":
-                bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_ended(match_id), parse_mode="Markdown")
-                bot.send_message(call.message.chat.id,"⬅️ Нажмите 'К матчам', чтобы вернуться",reply_markup=back_to_matches())
-            else:
-                bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_not_stated(match_id), parse_mode="Markdown")
-                bot.send_message(call.message.chat.id,"⬅️ Нажмите 'К матчам', чтобы вернуться",reply_markup=back_to_matches())
-        except Exception as e:
-            bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
 
 
     @bot.callback_query_handler(func = lambda call: call.data.startswith("prediction_"))
@@ -236,32 +170,32 @@ def register_handlers(bot: TeleBot):
                 for match in data.get("response", {}).get("matches", []):
                     if match.get("leagueId") == league_id:
                         filtered_matches.append(match)
-                save_match(
-                match_id=match.get("id"),
-                league_id=league_id,
-                date=api_date,
-                home_team=match.get("home", {}).get("name", ""),
-                away_team=match.get("away", {}).get("name", ""),
-                score=match.get("status", {}).get("scoreStr", ""),
-                status=match.get("status", {}).get("reason", {}).get("short", ""),
-                time=match.get("time", "")
-                )
+                    save_match(
+                        match_id=match.get("id"),
+                        league_id=league_id,
+                        date=api_date,
+                        home_team=match.get("home", {}).get("name", ""),
+                        away_team=match.get("away", {}).get("name", ""),
+                        score=match.get("status", {}).get("scoreStr", ""),
+                        status=match.get("status", {}).get("reason", {}).get("short", ""),
+                        time=match.get("time", "")
+                    )
         else:
             data = get_matches_by_date(api_date)
             filtered_matches = []
             for match in data.get("response", {}).get("matches", []):
                 if match.get("leagueId") == league_id:
                     filtered_matches.append(match)
-            save_match(
-            match_id=match.get("id"),
-            league_id=league_id,
-            date=api_date,
-            home_team=match.get("home", {}).get("name", ""),
-            away_team=match.get("away", {}).get("name", ""),
-            score=match.get("status", {}).get("scoreStr", ""),
-            status=match.get("status", {}).get("reason", {}).get("short", ""),
-            time=match.get("time", "")
-            )
+                save_match(
+                    match_id=match.get("id"),
+                    league_id=league_id,
+                    date=api_date,
+                    home_team=match.get("home", {}).get("name", ""),
+                    away_team=match.get("away", {}).get("name", ""),
+                    score=match.get("status", {}).get("scoreStr", ""),
+                    status=match.get("status", {}).get("reason", {}).get("short", ""),
+                    time=match.get("time", "")
+                )
 
 
         if not filtered_matches:
@@ -276,3 +210,71 @@ def register_handlers(bot: TeleBot):
             parse_mode="Markdown"
         )
         return True
+
+    @bot.callback_query_handler(func=lambda call: call.data.startswith("match_"))
+    def handle_match_callback(call):
+        match_id = int(call.data.split("_")[1])
+        bot.answer_callback_query(call.id)
+        try:
+            match_info_cache = get_match_by_id(match_id)
+            if match_info_cache:
+                date_passed = is_match_date_passed(match_info_cache["date"])
+                status = match_info_cache["status"]
+                if date_passed and status != "FT":
+                    cached = None
+                    cached_score = None
+                else:
+                    cached = get_lineup(match_id)
+                    if cached and cached.get("home", {}).get("response", {}).get("lineup", {}).get("formation") != '':
+                        pass
+                    else:
+                        cached = None
+                    cached_score = get_match_by_id(match_id)
+            else:
+                cached = None
+                cached_score = None
+            if cached is not None and cached_score is not None:
+                home_data = cached["home"]
+                away_data = cached["away"]
+                score = cached_score["score"]
+                time = cached_score["time"]
+                match_info = {"score": score, "time": time}
+            else:
+                home_data, away_data, score_data = get_match_details(match_id)
+                print(f"score data: {score_data}")
+                score = score_data.get("response", {}).get("status", {}).get("scoreStr", "")
+                print(f"score: {score}")
+                time = score_data.get("response", {}).get("time", "")
+                print(f"time: {time}")
+                new_status = score_data.get("response", {}).get("status", {}).get("reason", {}).get("short", "")
+                save_match(
+                    match_id=match_id,
+                    league_id=score_data.get("response", {}).get("leagueId", 0),
+                    date=time[:10] if time else "",
+                    home_team=home_data.get("name", ""),
+                    away_team=away_data.get("name", ""),
+                    score=score,
+                    status=new_status,
+                    time=time
+                    )
+                home_lineup = home_data.get("response", {}).get("lineup", {})
+                away_lineup = away_data.get("response", {}).get("lineup", {})
+                save_lineup(
+                    match_id=match_id,
+                    home_formation=home_lineup.get("formation", ""),
+                    home_rating=home_lineup.get("rating", ""),
+                    home_starters=home_lineup.get("starters", []),
+                    away_formation=away_lineup.get("formation", ""),
+                    away_rating=away_lineup.get("rating", ""),
+                    away_starters=away_lineup.get("starters", [])
+                )
+                match_info = {"score": score, "time": time}
+            text = format_match_details(home_data, away_data, match_info)
+            if get_match_by_id(match_id)["status"] == "FT":
+                bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_ended(match_id), parse_mode="Markdown")
+                bot.send_message(call.message.chat.id,"⬅️ Нажмите 'К матчам', чтобы вернуться",reply_markup=back_to_matches())
+            else:
+                bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_not_stated(match_id), parse_mode="Markdown")
+                bot.send_message(call.message.chat.id,"⬅️ Нажмите 'К матчам', чтобы вернуться",reply_markup=back_to_matches())
+        except Exception as e:
+            bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")    

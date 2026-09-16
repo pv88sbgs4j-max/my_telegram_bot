@@ -22,3 +22,4 @@ typing_extensions==4.16.0
 urllib3==2.6.3
 Flask==3.0.3
 fastapi==0.128.8
+uvicorn==0.32.0

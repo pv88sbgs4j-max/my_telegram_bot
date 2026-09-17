@@ -20,5 +20,5 @@ print("🤖 Бот запущен...")
 
 if __name__ == '__main__':
     bot.remove_webhook()
-    bot.set_webhook(url='https://mytelegrambot-production-0b86.up.railway.app/webhook')
+    bot.set_webhook(url='https://mytelegrambot-production-beb5.up.railway.app/webhook')
     app.run(host='0.0.0.0', port=443)

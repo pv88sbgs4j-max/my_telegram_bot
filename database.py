@@ -255,3 +255,15 @@ def get_lineup(match_id):
         }
     return None
 
+
+def save_match_from_api(match, league_id, api_date):
+    save_match(
+        match_id=match.get("id"),
+        league_id=league_id,
+        date=api_date,
+        home_team=match.get("home", {}).get("name", ""),
+        away_team=match.get("away", {}).get("name", ""),
+        score=match.get("status", {}).get("scoreStr", ""),
+        status=match.get("status", {}).get("reason", {}).get("short", ""),
+        time=match.get("time", "")
+    )

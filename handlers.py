@@ -151,69 +151,51 @@ def register_handlers(bot: TeleBot):
 
 
     def show_matches(chat_id, league_name, api_date, display_date):
-        league_id = LEAGUE_IDS.get(league_name)
-        if not league_id:
-            bot.send_message(chat_id, "❌ Ошибка: ID лиги не найден.")
-            return False
-        save_user_state(chat_id, league_name, api_date, display_date)
-        today_api = datetime.now().strftime("%Y%m%d")
-
-        if api_date < today_api:
-            cached = get_matches(league_id, api_date)
-            update = False
-            for match in cached:
-                status = match["status"]["reason"]["short"]
-                if status != "FT":
-                    update = True
-            if cached and update == False:
-                filtered_matches = cached
+        try:
+            league_id = LEAGUE_IDS.get(league_name)
+            if not league_id:
+                bot.send_message(chat_id, "❌ Ошибка: ID лиги не найден.")
+                return False
+            save_user_state(chat_id, league_name, api_date, display_date)
+            filtered_matches =[]
+            today_api = datetime.now().strftime("%Y%m%d")
+            if api_date < today_api:
+                cached = get_matches(league_id, api_date)
+                update = False
+                for match in cached:
+                    status = match["status"]["reason"]["short"]
+                    if status != "FT":
+                        update = True
+                if cached and update == False:
+                    filtered_matches = cached
+                else:
+                    data = get_matches_by_date(api_date)
+                    for match in data.get("response", {}).get("matches", []):
+                        if match.get("leagueId") == league_id:
+                            filtered_matches.append(match)
+                            save_match_from_api(match, league_id, api_date)
             else:
                 data = get_matches_by_date(api_date)
-                filtered_matches = []
                 for match in data.get("response", {}).get("matches", []):
                     if match.get("leagueId") == league_id:
                         filtered_matches.append(match)
-                    save_match(
-                        match_id=match.get("id"),
-                        league_id=league_id,
-                        date=api_date,
-                        home_team=match.get("home", {}).get("name", ""),
-                        away_team=match.get("away", {}).get("name", ""),
-                        score=match.get("status", {}).get("scoreStr", ""),
-                        status=match.get("status", {}).get("reason", {}).get("short", ""),
-                        time=match.get("time", "")
-                    )
-        else:
-            data = get_matches_by_date(api_date)
-            filtered_matches = []
-            for match in data.get("response", {}).get("matches", []):
-                if match.get("leagueId") == league_id:
-                    filtered_matches.append(match)
-                save_match(
-                    match_id=match.get("id"),
-                    league_id=league_id,
-                    date=api_date,
-                    home_team=match.get("home", {}).get("name", ""),
-                    away_team=match.get("away", {}).get("name", ""),
-                    score=match.get("status", {}).get("scoreStr", ""),
-                    status=match.get("status", {}).get("reason", {}).get("short", ""),
-                    time=match.get("time", "")
-                )
+                        save_match_from_api(match, league_id, api_date)
 
+            if not filtered_matches:
+                bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")
+                return False
+            bot.send_message(
+                chat_id,
+                f"⚽ **{league_name} — матчи на {display_date}**\n\nНажмите на матч для подробностей:",
+                reply_markup=matches_keyboard(filtered_matches),
+                parse_mode="Markdown"
+            )
+            return True
+        except Exception as e:
+            print(f" ERROR in show_matches: {e}")
+            bot.send_message(chat_id, "API временно не доступен")
+        return False
 
-
-
-        if not filtered_matches:
-            bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")
-            return False
-        save_user_state(chat_id, league_name, api_date, display_date)
-        bot.send_message(
-            chat_id,
-            f"⚽ **{league_name} — матчи на {display_date}**\n\nНажмите на матч для подробностей:",
-            reply_markup=matches_keyboard(filtered_matches),
-            parse_mode="Markdown"
-        )
-        return True
 
     @bot.callback_query_handler(func=lambda call: call.data.startswith("match_"))
     def handle_match_callback(call):
@@ -245,12 +227,12 @@ def register_handlers(bot: TeleBot):
                 match_info = {"score": score, "time": time}
             else:
                 home_data, away_data, score_data = get_match_details(match_id)
-                print(f"score data: {score_data}")
                 score = score_data.get("response", {}).get("status", {}).get("scoreStr", "")
-                print(f"score: {score}")
                 time = score_data.get("response", {}).get("time", "")
-                print(f"time: {time}")
                 new_status = score_data.get("response", {}).get("status", {}).get("reason", {}).get("short", "")
+                if "message" in score_data or not score_data.get("response"):
+                    bot.send_message(call.message.chat.id, "API временно недоступен")
+                    return
                 save_match(
                     match_id=match_id,
                     league_id=score_data.get("response", {}).get("leagueId", 0),

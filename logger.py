@@ -25,4 +25,11 @@ def setup_logging():
         file_handler.setFormatter(formatter)
         root.addHandler(file_handler)
 
-    root.setLevel(logging.DEBUG)
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
+    logging.getLogger("requests").setLevel(logging.WARNING)
+    logging.getLogger("telebot").setLevel(logging.WARNING)
+
+    if os.environ.get("RAILWAY_ENVIRONMENT"):
+        root.setLevel(logging.INFO)
+    else:
+        root.setLevel(logging.DEBUG)

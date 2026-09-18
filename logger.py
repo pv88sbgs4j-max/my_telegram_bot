@@ -28,6 +28,7 @@ def setup_logging():
     logging.getLogger("urllib3").setLevel(logging.WARNING)
     logging.getLogger("requests").setLevel(logging.WARNING)
     logging.getLogger("telebot").setLevel(logging.WARNING)
+    logging.getLogger("werkzeug").setLevel(logging.WARNING)
 
     if os.environ.get("RAILWAY_ENVIRONMENT"):
         root.setLevel(logging.INFO)

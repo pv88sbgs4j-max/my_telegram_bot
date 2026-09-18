@@ -18,6 +18,9 @@ bot = TeleBot(TOKEN)
 init_db()
 register_handlers(bot)
 
+bot.remove_webhook()
+bot.set_webhook(url='https://mytelegrambot-production-beb5.up.railway.app/webhook')
+
 logger.info("🤖 Бот запущен...")
 
 @app.route('/webhook', methods=['POST'])
@@ -29,8 +32,6 @@ def webhook():
 
 
 if __name__ == '__main__':
-    bot.remove_webhook()
-    bot.set_webhook(url='https://mytelegrambot-production-beb5.up.railway.app/webhook')
     port = int(os.environ.get("PORT", 5000))
     logger.info(f"Запуск на порту {port}")
     app.run(host='0.0.0.0', port=port)

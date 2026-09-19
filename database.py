@@ -266,4 +266,4 @@ def save_match_from_api(match, league_id, api_date):
         score=match.get("status", {}).get("scoreStr", ""),
         status=match.get("status", {}).get("reason", {}).get("short", ""),
         time=match.get("time", "")
-    )
+        )

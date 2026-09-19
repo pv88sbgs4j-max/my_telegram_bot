@@ -8,6 +8,9 @@ from utils import get_today_date, format_match_details, is_match_date_passed
 from api_client import get_matches_by_date
 from ai_client import ask_deepseek
 from database import *
+import logging
+
+logger = logging.getLogger(__name__)
 
 user_state = {}
 
@@ -21,6 +24,7 @@ def register_handlers(bot: TeleBot):
     def handle_league_choice(message):
         chat_id = message.chat.id
         league_name = message.text
+        logger.info(f"{chat_id} выбрал лигу {league_name}")
         save_user_state(chat_id, league_name, None, None)
         bot.send_message(
             message.chat.id,
@@ -32,6 +36,7 @@ def register_handlers(bot: TeleBot):
     @bot.message_handler(func=lambda message: message.text == "🔙 Назад")
     def handle_back_button(message):
         chat_id = message.chat.id
+        logger.info(f"Пользователь {chat_id} нажал 'Назад'")
         if chat_id in user_state:
             del user_state[chat_id]
         bot.send_message(chat_id, "⚽ Выбери лигу:", reply_markup=main_keyboard())
@@ -40,14 +45,17 @@ def register_handlers(bot: TeleBot):
     def handle_today_button(message):
         chat_id = message.chat.id
         if chat_id not in user_state:
+            logger.debug(f"Сброс состояния для chat_id {chat_id}")
             bot.reply_to(message, "❌ Сначала выберите лигу через /start")
             return
         league_name = user_state[chat_id].get("league")
         if not league_name:
+            logger.debug(f"Ошибка: лига не выбрана.")
             bot.reply_to(message, "❌ Ошибка: лига не выбрана.")
             return
         today_display = datetime.now().strftime("%d.%m.%Y")
         today_api = datetime.now().strftime("%Y%m%d")
+        logger.info(f"Пользователь {chat_id} выбрал сегодняшнюю дату")
         show_matches(chat_id, league_name, today_api, today_display)
 
     @bot.message_handler(func=lambda message: message.text == "✏️ Ввести дату")
@@ -56,6 +64,7 @@ def register_handlers(bot: TeleBot):
         user_state = get_user_state(chat_id)
         if not user_state:
             bot.reply_to(message, "❌ Сначала выберите лигу через /start")
+            logger.debug(f"Ошибка: лига не выбрана.")
             return
         bot.send_message(
             chat_id,
@@ -70,15 +79,18 @@ def register_handlers(bot: TeleBot):
         state = get_user_state(chat_id)
         if not state:
             bot.reply_to(message, "❌ Нет данных для возврата.")
+            logger.debug(f"Ошибка: для пользователя {chat_id} нет данных для возврата.")
             return
         league_name = state.get("last_league")
         last_date = state.get("last_api_date")
         last_display_date = state.get("last_display_date")
 
         if not league_name or not last_date:
+            logger.debug(f"Ошибка: для пользователя {chat_id} не удалось восстановить список матчей.")
             bot.reply_to(message, "❌ Не удалось восстановить список матчей.")
         else:
             show_matches(chat_id, league_name, last_date, last_display_date)
+            logger.info(f"Пользователь {chat_id} вернулся обратно к матчам {last_display_date}")
             bot.send_message(message.chat.id,f"Вы выбрали **{league_name}**. Выберите вариант:",reply_markup=action_keyboard(),parse_mode="Markdown")
 
 
@@ -96,8 +108,10 @@ def register_handlers(bot: TeleBot):
             input_date = datetime.strptime(date_str, "%d.%m.%Y")
             api_date = input_date.strftime("%Y%m%d")
             display_date = input_date.strftime("%d.%m.%Y")
+            logger.info(f"Пользователь {chat_id} выбрал {display_date} дату")
         except ValueError:
             bot.reply_to(message, "❌ Неверный формат! Введите дату как **ДД.ММ.ГГГГ**", parse_mode="Markdown")
+            logger.debug(f"Ошибка: пользователь {chat_id} выбрал неверную дату.")
             return 
         show_matches(chat_id, league_name, api_date, display_date)
         
@@ -107,9 +121,9 @@ def register_handlers(bot: TeleBot):
     def handle_prediction(call):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
+        chat_id = call.message.chat.id
         cached = get_match_by_id(match_id)
         cached_prediction = get_prediction(match_id)
-
         if cached_prediction:
             prediction = cached_prediction["prediction"]
         else:  
@@ -120,17 +134,19 @@ def register_handlers(bot: TeleBot):
                 prompt = f"Спрогнозируй результат матча между {home} и {away} они играют {time}. Используй статистику, кто фаворит, кто аутсайдер. Необязательно давать прогноз на счет, можно давать прогнозы на угловые, удары а створ если о этом явно говорит статистика, но и на счет(фору) можешь давать прогноз. Ответ пиши на русском"
                 bot.send_message(call.message.chat.id, "🧠 Думаю...")
                 prediction = ask_deepseek(prompt)
+                logger.info(f"Пользователь {chat_id} получил прогноз")
                 save_prediction(match_id, prediction)
             except Exception as e:
+                logger.debug(f"Ошибка: {e}")
                 bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
         bot.send_message(call.message.chat.id, prediction, parse_mode="HTML")
-        
 
 
     @bot.callback_query_handler(func = lambda call: call.data.startswith("review_"))
     def handle_review(call):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
+        chat_id = call.message.chat.id
         cached = get_match_by_id(match_id)
         cahched_review = get_review(match_id)
 
@@ -144,8 +160,10 @@ def register_handlers(bot: TeleBot):
                 prompt = f"Дай краткий обзор матча между {home} и {away}. Они играли {time}. Расскажи на каких минутах происходили ключевые события"
                 bot.send_message(call.message.chat.id, "🧠 Думаю...")
                 review = ask_deepseek(prompt)
+                logger.info(f"Пользователь {chat_id} получил обзор")
                 save_review(match_id, review)
             except Exception as e:
+                logger.debug(f"Ошибка: {e}")
                 bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")
         bot.send_message(call.message.chat.id, review, parse_mode="HTML")
 
@@ -154,6 +172,7 @@ def register_handlers(bot: TeleBot):
         try:
             league_id = LEAGUE_IDS.get(league_name)
             if not league_id:
+                logger.debug(f"Ошибка: для {chat_id} не найден ID лиги")
                 bot.send_message(chat_id, "❌ Ошибка: ID лиги не найден.")
                 return False
             save_user_state(chat_id, league_name, api_date, display_date)
@@ -183,7 +202,9 @@ def register_handlers(bot: TeleBot):
 
             if not filtered_matches:
                 bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")
+                logger.info(f"Матчей для {chat_id}  на дату {display_date} не найдено")
                 return False
+            logger.info(f"Матчи для {chat_id}  на дату {display_date} показаны")
             bot.send_message(
                 chat_id,
                 f"⚽ **{league_name} — матчи на {display_date}**\n\nНажмите на матч для подробностей:",
@@ -192,7 +213,7 @@ def register_handlers(bot: TeleBot):
             )
             return True
         except Exception as e:
-            print(f" ERROR in show_matches: {e}")
+            logger.debug(f"Ошибка: {e}")
             bot.send_message(chat_id, "API временно не доступен")
         return False
 
@@ -201,6 +222,7 @@ def register_handlers(bot: TeleBot):
     def handle_match_callback(call):
         match_id = int(call.data.split("_")[1])
         bot.answer_callback_query(call.id)
+        chat_id = call.message.chat.id
         try:
             match_info_cache = get_match_by_id(match_id)
             if match_info_cache:
@@ -231,6 +253,7 @@ def register_handlers(bot: TeleBot):
                 time = score_data.get("response", {}).get("time", "")
                 new_status = score_data.get("response", {}).get("status", {}).get("reason", {}).get("short", "")
                 if "message" in score_data or not score_data.get("response"):
+                    logger.debug(f"API недоступен")
                     bot.send_message(call.message.chat.id, "API временно недоступен")
                     return
                 save_match(
@@ -253,14 +276,16 @@ def register_handlers(bot: TeleBot):
                     away_formation=away_lineup.get("formation", ""),
                     away_rating=away_lineup.get("rating", ""),
                     away_starters=away_lineup.get("starters", [])
-                )
+                    )
                 match_info = {"score": score, "time": time}
             text = format_match_details(home_data, away_data, match_info)
             if get_match_by_id(match_id)["status"] == "FT":
+                logger.info(f"Пользователь {chat_id}  получил информацию по {match_id}")
                 bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_ended(match_id), parse_mode="Markdown")
                 bot.send_message(call.message.chat.id,"⬅️ Нажмите 'К матчам', чтобы вернуться",reply_markup=back_to_matches())
             else:
                 bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_not_stated(match_id), parse_mode="Markdown")
                 bot.send_message(call.message.chat.id,"⬅️ Нажмите 'К матчам', чтобы вернуться",reply_markup=back_to_matches())
         except Exception as e:
+            logger.debug(f"Ошибка: {e}")
             bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")    

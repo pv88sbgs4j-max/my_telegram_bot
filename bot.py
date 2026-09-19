@@ -19,7 +19,7 @@ init_db()
 register_handlers(bot)
 
 bot.remove_webhook()
-bot.set_webhook(url='https://mytelegrambot-production-ac2f.up.railway.app/webhook')
+bot.set_webhook(url='https://mytelegrambot-production-8463.up.railway.app/webhook')
 
 logger.info("🤖 Бот запущен...")
 

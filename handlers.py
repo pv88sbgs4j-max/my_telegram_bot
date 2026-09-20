@@ -1,14 +1,22 @@
-from telebot import TeleBot
-from datetime import datetime
-import requests
-from config import LEAGUE_NAME_TICKER, LEAGUE_IDS, url, headers
-from keyboards import main_keyboard, action_keyboard, matches_keyboard, ai_keyboard_for_not_stated, ai_keyboard_for_ended, back_to_matches
-from api_client import get_match_details
-from utils import get_today_date, format_match_details, is_match_date_passed
-from api_client import get_matches_by_date
-from ai_client import ask_deepseek
-from database import *
 import logging
+from datetime import datetime
+
+import requests
+from telebot import TeleBot
+
+from ai_client import ask_deepseek
+from api_client import get_match_details, get_matches_by_date
+from config import LEAGUE_NAME_TICKER, LEAGUE_IDS, url, headers
+from database import *
+from keyboards import (
+    main_keyboard,
+    action_keyboard,
+    matches_keyboard,
+    ai_keyboard_for_not_stated,
+    ai_keyboard_for_ended,
+    back_to_matches,
+)
+from utils import get_today_date, format_match_details, is_match_date_passed
 
 logger = logging.getLogger(__name__)
 
@@ -44,11 +52,12 @@ def register_handlers(bot: TeleBot):
     @bot.message_handler(func=lambda message: message.text == "📅 Сегодня")
     def handle_today_button(message):
         chat_id = message.chat.id
-        if chat_id not in user_state:
+        state = get_user_state(chat_id)
+        if not state:
             logger.debug(f"Сброс состояния для chat_id {chat_id}")
             bot.reply_to(message, "❌ Сначала выберите лигу через /start")
             return
-        league_name = user_state[chat_id].get("league")
+        league_name = state.get("last_league")
         if not league_name:
             logger.debug(f"Ошибка: лига не выбрана.")
             bot.reply_to(message, "❌ Ошибка: лига не выбрана.")

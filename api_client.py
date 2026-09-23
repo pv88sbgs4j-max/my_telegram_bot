@@ -1,7 +1,7 @@
 import requests
 from config import headers, url_for_score, url
 
-def get_match_details(match_id):
+def get_match_details(match_id:int) -> tuple[dict, dict, dict]:
     url_home = "https://free-api-live-football-data.p.rapidapi.com/football-get-hometeam-lineup"
     querystring_home = {"eventid": match_id}
     response_home = requests.get(url_home, headers=headers, params=querystring_home)
@@ -18,7 +18,7 @@ def get_match_details(match_id):
 
     return home_data, away_data, score_data
 
-def get_matches_by_date(date):
+def get_matches_by_date(date:str) -> dict:
     querystring = {"date": date}
     response = requests.get(url, headers=headers, params=querystring)
     response.raise_for_status()

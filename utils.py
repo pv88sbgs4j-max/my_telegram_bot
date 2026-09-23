@@ -3,7 +3,7 @@ from datetime import datetime
 def get_today_date() -> str:
     return datetime.now().strftime("%Y%m%d")
 
-def format_players(players):
+def format_players(players:list[dict]) -> str:
     text = ""
     for player in players:
         name = player.get("name", "?")
@@ -13,7 +13,7 @@ def format_players(players):
     return text
 
 
-def format_match_details(home_data, away_data, match_info = None):
+def format_match_details(home_data:dict, away_data:dict, match_info: dict | None = None) -> str:
 
     
     home_response = home_data.get("response", {})
@@ -60,7 +60,7 @@ def format_match_details(home_data, away_data, match_info = None):
     return text
 
 
-def is_match_date_passed(match_time_str):
+def is_match_date_passed(match_time_str:str) -> bool:
     if not match_time_str:
         return False
     try:

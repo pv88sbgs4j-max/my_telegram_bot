@@ -61,7 +61,7 @@ def init_db():
     conn.close()
 
 
-def save_user_state(chat_id, league, api_date, display_date):
+def save_user_state(chat_id:int, league:str, api_date:str, display_date:str) -> None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -72,7 +72,7 @@ def save_user_state(chat_id, league, api_date, display_date):
     conn.close()
 
 
-def get_user_state(chat_id):
+def get_user_state(chat_id:int) -> dict | None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM user_state WHERE chat_id = ?", (chat_id,))
@@ -89,7 +89,7 @@ def get_user_state(chat_id):
     return None
 
 
-def save_prediction(match_id,prediction):
+def save_prediction(match_id:int,prediction:str) -> None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -100,7 +100,7 @@ def save_prediction(match_id,prediction):
     conn.close()
 
 
-def get_prediction(match_id):
+def get_prediction(match_id:int) -> dict | None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -117,7 +117,7 @@ def get_prediction(match_id):
     return None
 
 
-def save_review(match_id,review):
+def save_review(match_id:int,review:str) -> None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -128,7 +128,7 @@ def save_review(match_id,review):
     conn.close()
 
 
-def get_review(match_id):
+def get_review(match_id:int) -> dict | None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -144,7 +144,7 @@ def get_review(match_id):
     return None
 
 
-def save_match(match_id, league_id, date, home_team, away_team, score, status, time):
+def save_match(match_id:int, league_id:int, date:str, home_team:str, away_team:str, score:str, status:str, time:str) -> None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -154,7 +154,7 @@ def save_match(match_id, league_id, date, home_team, away_team, score, status, t
     conn.commit()
     conn.close()
 
-def get_matches(league_id, date):
+def get_matches(league_id:int, date:str) -> dict | None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -177,7 +177,7 @@ def get_matches(league_id, date):
     return matches
 
 
-def get_match_by_id(match_id):
+def get_match_by_id(match_id:int) -> dict | None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM matches WHERE match_id = ?", (match_id,))
@@ -198,7 +198,7 @@ def get_match_by_id(match_id):
     return None
 
 
-def save_lineup(match_id, home_formation, home_rating, home_starters, away_formation, away_rating, away_starters):
+def save_lineup(match_id:int, home_formation:str, home_rating:str, home_starters:list, away_formation:str, away_rating:str, away_starters:list) -> None:
     home_starters_json = json.dumps(home_starters)
     away_starters_json = json.dumps(away_starters)
     
@@ -211,7 +211,7 @@ def save_lineup(match_id, home_formation, home_rating, home_starters, away_forma
     conn.commit()
     conn.close()
 
-def get_lineup(match_id):
+def get_lineup(match_id:int) -> dict | None:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -256,7 +256,7 @@ def get_lineup(match_id):
     return None
 
 
-def save_match_from_api(match, league_id, api_date):
+def save_match_from_api(match:dict, league_id:int, api_date:str) -> None:
     save_match(
         match_id=match.get("id"),
         league_id=league_id,

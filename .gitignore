@@ -3,3 +3,5 @@ bot_cache.db
 logs/
 *.log
 *.log.*
+.pytest_cache
+.venv

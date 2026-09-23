@@ -7,7 +7,7 @@ client = OpenAI(
     base_url="https://api.deepseek.com"
 )
 
-def ask_deepseek(promt: str):
+def ask_deepseek(promt: str) -> str:
     try:
         response = client.chat.completions.create(
             model = "deepseek-v4-flash",

@@ -8,14 +8,7 @@ from ai_client import ask_deepseek
 from api_client import get_match_details, get_matches_by_date
 from config import LEAGUE_NAME_TICKER, LEAGUE_IDS, url, headers
 from database import *
-from keyboards import (
-    main_keyboard,
-    action_keyboard,
-    matches_keyboard,
-    ai_keyboard_for_not_stated,
-    ai_keyboard_for_ended,
-    back_to_matches,
-)
+from keyboards import *
 from utils import get_today_date, format_match_details, is_match_date_passed
 
 logger = logging.getLogger(__name__)
@@ -177,7 +170,7 @@ def register_handlers(bot: TeleBot):
         bot.send_message(call.message.chat.id, review, parse_mode="HTML")
 
 
-    def show_matches(chat_id, league_name, api_date, display_date):
+    def show_matches(chat_id:int, league_name:str, api_date:str, display_date:str) -> bool:
         try:
             league_id = LEAGUE_IDS.get(league_name)
             if not league_id:

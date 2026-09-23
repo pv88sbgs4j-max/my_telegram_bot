@@ -23,7 +23,7 @@ def matches(match_id):
         raise HTTPException(status_code=404, detail = "Lineup not found")
     return m
 
-@app.get("/match_by_id")
+@app.get("/matches/{match_id}")
 def match_by_id(match_id):
     m = get_match_by_id(match_id)
     if not m:

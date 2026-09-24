@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 import requests
@@ -265,6 +265,15 @@ def register_handlers(bot: TeleBot):
                 time = cached_score["time"]
                 match_info = {"score": score, "time": time}
             else:
+                cached_score = get_match_by_id(match_id)
+                if cached_score:
+                    match_date = datetime.strptime(match_info_cache["date"], "%Y%m%d")
+                    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                    days_until = (match_date - today).days
+                    if days_until > 1:
+                        bot.send_message(chat_id,"Информации по составу для этого матча пока нет.\n" "Попробуйте в день матча — тогда появятся составы команд.")
+                        bot.send_message(chat_id, "⬅️ Нажмите 'К матчам', чтобы вернуться", reply_markup=back_to_matches())
+                        return
                 logger.info(f"МАТЧ {match_id}: ИДЁМ В API (cached={cached is not None}, cached_score={cached_score is not None})")
                 home_data, away_data, score_data = get_match_details(match_id)
                 score = score_data.get("response", {}).get("status", {}).get("scoreStr", "")

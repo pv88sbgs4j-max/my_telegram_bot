@@ -271,9 +271,9 @@ def register_handlers(bot: TeleBot):
                     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                     days_until = (match_date - today).days
                     if days_until > 1:
-                        bot.send_message(chat_id,"Информации по составу для этого матча пока нет.\n" "Попробуйте в день матча — тогда появятся составы команд.")
+                        text = "Информации по составу для этого матча пока нет.\n" "Попробуйте в день матча — тогда появятся составы команд."
                         bot.send_message(chat_id, "⬅️ Нажмите 'К матчам', чтобы вернуться", reply_markup=back_to_matches())
-                        bot.send_message(chat_id, reply_markup=ai_keyboard_for_not_stated(match_id))
+                        bot.send_message(chat_id, text , reply_markup=ai_keyboard_for_not_stated(match_id))
                         return
                 logger.info(f"МАТЧ {match_id}: ИДЁМ В API (cached={cached is not None}, cached_score={cached_score is not None})")
                 home_data, away_data, score_data = get_match_details(match_id)

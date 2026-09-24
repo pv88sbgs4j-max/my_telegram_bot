@@ -18,16 +18,26 @@ def action_keyboard():
     markup.add(btn_today, btn_manual, btn_back)
     return markup
 
+def get_team_name(match: dict, side: str) -> str:
+    flat = match.get(f"{side}_team")
+    if isinstance(flat, str) and flat:
+        return flat
+    
+    nested = match.get(side)
+    if isinstance(nested, dict):
+        return nested.get("name", "?")
+    
+    return "?"
+
+
 def matches_keyboard(filtered_matches):
     markup = InlineKeyboardMarkup(row_width=1)  
     for match in filtered_matches:
-        home = match.get("home_team", {}).get("name", "?")
-        away = match.get("away_team", {}).get("name", "?")
+        home = get_team_name(match, "home")
+        away = get_team_name(match, "away")
         time = match.get("time", "—")
         button_text = f"{home} 🆚 {away}  {time}"
-        
         match_id = match.get("match_id") or match.get("id")
-        
         button = InlineKeyboardButton(button_text, callback_data=f"match_{match_id}")
         markup.add(button)
     return markup

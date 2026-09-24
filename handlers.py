@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+
 import requests
 from telebot import TeleBot
 
@@ -10,6 +11,7 @@ from config import LEAGUE_NAME_TICKER, LEAGUE_IDS, url, headers
 from database import *
 from keyboards import *
 from utils import get_today_date, format_match_details, is_match_date_passed
+
 
 logger = logging.getLogger(__name__)
 
@@ -182,25 +184,34 @@ def register_handlers(bot: TeleBot):
             today_api = datetime.now().strftime("%Y%m%d")
             if api_date < today_api:
                 cached = get_matches(league_id, api_date)
+                logger.info(f"КЭШ: {len(cached)} матчей для лиги {league_name} на {api_date}")
                 update = False
                 for match in cached:
-                    status = match["status"]["reason"]["short"]
+                    status = match.get("status", "")
                     if status != "FT":
                         update = True
                 if cached and update == False:
+                    logger.info(f" БЕРЁМ ИЗ КЭША: {len(cached)} матчей")
                     filtered_matches = cached
                 else:
+                    logger.info(f" ИДЁМ В API: cached={len(cached)}, update={update}")
                     data = get_matches_by_date(api_date)
                     for match in data.get("response", {}).get("matches", []):
                         if match.get("leagueId") == league_id:
                             filtered_matches.append(match)
                             save_match_from_api(match, league_id, api_date)
+                    logger.info(f" ИЗ API ПОЛУЧЕНО: {len(filtered_matches)} матчей")
             else:
-                data = get_matches_by_date(api_date)
-                for match in data.get("response", {}).get("matches", []):
-                    if match.get("leagueId") == league_id:
-                        filtered_matches.append(match)
-                        save_match_from_api(match, league_id, api_date)
+                cached = get_matches(league_id, api_date)
+                if not cached:
+                    data = get_matches_by_date(api_date)
+                    for match in data.get("response", {}).get("matches", []):
+                        if match.get("leagueId") == league_id:
+                            filtered_matches.append(match)
+                            save_match_from_api(match, league_id, api_date)
+                else:
+                    filtered_matches = cached
+                    logger.info(f" БЕРЁМ ИЗ КЭША: {len(cached)} матчей")
 
             if not filtered_matches:
                 bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")
@@ -231,6 +242,7 @@ def register_handlers(bot: TeleBot):
                 date_passed = is_match_date_passed(match_info_cache["date"])
                 status = match_info_cache["status"]
                 if date_passed and status != "FT":
+                    logger.info(f"МАТЧ {match_id}: дата прошла, статус {status} != FT, идём в API")
                     cached = None
                     cached_score = None
                 else:
@@ -241,33 +253,37 @@ def register_handlers(bot: TeleBot):
                         cached = None
                     cached_score = get_match_by_id(match_id)
             else:
+                logger.info(f"МАТЧ {match_id}: нет в БД, идём в API")
                 cached = None
                 cached_score = None
+            
             if cached is not None and cached_score is not None:
+                logger.info(f"МАТЧ {match_id}: БЕРЁМ ИЗ КЭША")
                 home_data = cached["home"]
                 away_data = cached["away"]
                 score = cached_score["score"]
                 time = cached_score["time"]
                 match_info = {"score": score, "time": time}
             else:
+                logger.info(f"МАТЧ {match_id}: ИДЁМ В API (cached={cached is not None}, cached_score={cached_score is not None})")
                 home_data, away_data, score_data = get_match_details(match_id)
                 score = score_data.get("response", {}).get("status", {}).get("scoreStr", "")
                 time = score_data.get("response", {}).get("time", "")
                 new_status = score_data.get("response", {}).get("status", {}).get("reason", {}).get("short", "")
                 if "message" in score_data or not score_data.get("response"):
-                    logger.debug(f"API недоступен")
-                    bot.send_message(call.message.chat.id, "API временно недоступен")
+                    logger.warning(f"МАТЧ {match_id}: API недоступен")
+                    bot.send_message(chat_id, "API временно недоступен")
                     return
                 save_match(
                     match_id=match_id,
                     league_id=score_data.get("response", {}).get("leagueId", 0),
-                    date=time[:10] if time else "",
+                    date=datetime.strptime(time[:10], "%d.%m.%Y").strftime("%Y%m%d") if time else "",
                     home_team=home_data.get("name", ""),
                     away_team=away_data.get("name", ""),
                     score=score,
                     status=new_status,
                     time=time
-                    )
+                )
                 home_lineup = home_data.get("response", {}).get("lineup", {})
                 away_lineup = away_data.get("response", {}).get("lineup", {})
                 save_lineup(
@@ -278,16 +294,22 @@ def register_handlers(bot: TeleBot):
                     away_formation=away_lineup.get("formation", ""),
                     away_rating=away_lineup.get("rating", ""),
                     away_starters=away_lineup.get("starters", [])
-                    )
+                )
                 match_info = {"score": score, "time": time}
+                logger.info(f"МАТЧ {match_id}: СОХРАНЁН В БД")
+            
             text = format_match_details(home_data, away_data, match_info)
-            if get_match_by_id(match_id)["status"] == "FT":
-                logger.info(f"Пользователь {chat_id}  получил информацию по {match_id}")
-                bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_ended(match_id), parse_mode="Markdown")
-                bot.send_message(call.message.chat.id,"⬅️ Нажмите 'К матчам', чтобы вернуться",reply_markup=back_to_matches())
+            
+            match_after = get_match_by_id(match_id)
+            if match_after and match_after["status"] == "FT":
+                logger.info(f"МАТЧ {match_id}: статус FT, показываем с кнопкой обзора")
+                bot.send_message(chat_id, text, reply_markup=ai_keyboard_for_ended(match_id), parse_mode="Markdown")
+                bot.send_message(chat_id, "⬅️ Нажмите 'К матчам', чтобы вернуться", reply_markup=back_to_matches())
             else:
-                bot.send_message(call.message.chat.id,text,reply_markup=ai_keyboard_for_not_stated(match_id), parse_mode="Markdown")
-                bot.send_message(call.message.chat.id,"⬅️ Нажмите 'К матчам', чтобы вернуться",reply_markup=back_to_matches())
+                logger.info(f"МАТЧ {match_id}: статус не FT, показываем с кнопкой прогноза")
+                bot.send_message(chat_id, text, reply_markup=ai_keyboard_for_not_stated(match_id), parse_mode="Markdown")
+                bot.send_message(chat_id, "⬅️ Нажмите 'К матчам', чтобы вернуться", reply_markup=back_to_matches())
+        
         except Exception as e:
-            logger.debug(f"Ошибка: {e}")
-            bot.send_message(call.message.chat.id, f"❌ Ошибка: {e}")    
+            logger.error(f"Ошибка в handle_match_callback для матча {match_id}: {e}", exc_info=True)
+            bot.send_message(chat_id, f"❌ Ошибка: {e}")

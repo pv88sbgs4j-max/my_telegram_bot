@@ -1,6 +1,8 @@
 import sqlite3
 import json
 from datetime import datetime
+from typing import Optional
+
 
 DB_PATH = "bot_cache.db"
 
@@ -72,7 +74,7 @@ def save_user_state(chat_id:int, league:str, api_date:str, display_date:str) -> 
     conn.close()
 
 
-def get_user_state(chat_id:int) -> dict | None:
+def get_user_state(chat_id:int) -> Optional[dict]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM user_state WHERE chat_id = ?", (chat_id,))
@@ -100,7 +102,7 @@ def save_prediction(match_id:int,prediction:str) -> None:
     conn.close()
 
 
-def get_prediction(match_id:int) -> dict | None:
+def get_prediction(match_id:int) -> Optional[dict]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -128,7 +130,7 @@ def save_review(match_id:int,review:str) -> None:
     conn.close()
 
 
-def get_review(match_id:int) -> dict | None:
+def get_review(match_id:int) -> Optional[dict]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -154,30 +156,32 @@ def save_match(match_id:int, league_id:int, date:str, home_team:str, away_team:s
     conn.commit()
     conn.close()
 
-def get_matches(league_id:int, date:str) -> dict | None:
+def get_matches(league_id: int, date: str) -> list[dict]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT * FROM matches WHERE league_id = ? AND date = ?
+        SELECT match_id, league_id, date, home_team, away_team, score, status, time 
+        FROM matches WHERE league_id = ? AND date = ?
     """, (league_id, date))
     rows = cursor.fetchall()
     conn.close()
-
-    matches = []
-    for row in rows:
-        matches.append({
+    
+    return [
+        {
             "match_id": row[0],
             "league_id": row[1],
             "date": row[2],
-            "home_team": {"name": row[3]},
-            "away_team": {"name": row[4]},
-            "status": {"scoreStr": row[5], "reason": {"short": row[6]}},
+            "home_team": row[3],       
+            "away_team": row[4],      
+            "score": row[5],
+            "status": row[6],        
             "time": row[7]
-        })
-    return matches
+        }
+        for row in rows
+    ]
 
 
-def get_match_by_id(match_id:int) -> dict | None:
+def get_match_by_id(match_id:int) -> Optional[dict]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM matches WHERE match_id = ?", (match_id,))
@@ -211,7 +215,7 @@ def save_lineup(match_id:int, home_formation:str, home_rating:str, home_starters
     conn.commit()
     conn.close()
 
-def get_lineup(match_id:int) -> dict | None:
+def get_lineup(match_id:int) -> Optional[dict]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""

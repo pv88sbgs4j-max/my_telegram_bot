@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 def get_today_date() -> str:
     return datetime.now().strftime("%Y%m%d")
@@ -13,7 +14,7 @@ def format_players(players:list[dict]) -> str:
     return text
 
 
-def format_match_details(home_data:dict, away_data:dict, match_info: dict | None = None) -> str:
+def format_match_details(home_data:dict, away_data:dict, match_info: Optional[dict]) -> str:
 
     
     home_response = home_data.get("response", {})
@@ -60,12 +61,14 @@ def format_match_details(home_data:dict, away_data:dict, match_info: dict | None
     return text
 
 
-def is_match_date_passed(match_time_str:str) -> bool:
+def is_match_date_passed(match_time_str: str) -> bool:
     if not match_time_str:
         return False
     try:
         match_datetime = datetime.strptime(match_time_str, "%d.%m.%Y %H:%M")
-        now = datetime.now()
-        return match_datetime < now
     except ValueError:
-        return False
+        try:
+            match_datetime = datetime.strptime(match_time_str, "%Y%m%d")
+        except ValueError:
+            return False
+    return match_datetime < datetime.now()

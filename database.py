@@ -58,6 +58,14 @@ def init_db():
         last_display_date TEXT,
         updated_at TEXT)
     """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS checked_dates (
+        league_id INTEGER,
+        date TEXT,
+        checked_at TEXT,
+        PRIMARY KEY (league_id, date))
+        """)
     
     conn.commit()
     conn.close()
@@ -271,3 +279,26 @@ def save_match_from_api(match:dict, league_id:int, api_date:str) -> None:
         status=match.get("status", {}).get("reason", {}).get("short", ""),
         time=match.get("time", "")
         )
+
+
+def is_date_checked(league_id: int, date: str) -> bool:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT 1 FROM checked_dates WHERE league_id = ? AND date = ?",
+        (league_id, date)
+    )
+    result = cursor.fetchone() is not None
+    conn.close()
+    return result
+
+
+def mark_date_checked(league_id: int, date: str) -> None:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT OR REPLACE INTO checked_dates (league_id, date, checked_at)
+        VALUES (?, ?, ?)
+    """, (league_id, date, datetime.now().isoformat()))
+    conn.commit()
+    conn.close()

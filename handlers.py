@@ -193,6 +193,10 @@ def register_handlers(bot: TeleBot):
                 if cached and update == False:
                     logger.info(f" БЕРЁМ ИЗ КЭША: {len(cached)} матчей")
                     filtered_matches = cached
+                elif is_date_checked(league_id, api_date):
+                    logger.info(f"Дата {api_date} уже проверена — матчей нет")
+                    bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")
+                    return False
                 else:
                     logger.info(f" ИДЁМ В API: cached={len(cached)}, update={update}")
                     data = get_matches_by_date(api_date)
@@ -200,15 +204,22 @@ def register_handlers(bot: TeleBot):
                         if match.get("leagueId") == league_id:
                             filtered_matches.append(match)
                             save_match_from_api(match, league_id, api_date)
+                    mark_date_checked(league_id, api_date)
                     logger.info(f" ИЗ API ПОЛУЧЕНО: {len(filtered_matches)} матчей")
             else:
+                if is_date_checked(league_id, api_date):
+                    logger.info(f"Дата {api_date} уже проверена — матчей нет")
+                    bot.send_message(chat_id, f"❌ Матчей для {league_name} на {display_date} не найдено.")
+                    return False
                 cached = get_matches(league_id, api_date)
                 if not cached:
                     data = get_matches_by_date(api_date)
+                    logger.info(f" ИЗ API ПОЛУЧЕНО: {len(filtered_matches)} матчей")
                     for match in data.get("response", {}).get("matches", []):
                         if match.get("leagueId") == league_id:
                             filtered_matches.append(match)
                             save_match_from_api(match, league_id, api_date)
+                    mark_date_checked(league_id, api_date)
                 else:
                     filtered_matches = cached
                     logger.info(f" БЕРЁМ ИЗ КЭША: {len(cached)} матчей")
@@ -226,7 +237,7 @@ def register_handlers(bot: TeleBot):
             )
             return True
         except Exception as e:
-            logger.debug(f"Ошибка: {e}")
+            logger.error(f"Ошибка в show_matches для {chat_id}: {e}", exc_info=True)
             bot.send_message(chat_id, "API временно не доступен")
         return False
 
